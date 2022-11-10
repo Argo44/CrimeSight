@@ -117,15 +117,19 @@ namespace StarterAssets
 		}
 
 		private void Update()
-		{
+        {
 			// Test code for Sight post processing effect
 			if (sightEffectTimer > 0)
-            {
+			{
 				postProcess.weight = -1 * Mathf.Pow(sightEffectTimer - 1, 2) + 1;
 				sightEffectTimer -= Time.deltaTime;
-            }
-			if (_input.jump)
+			}
+			else
+				postProcess.weight = 0;
+
+            if (_input.jump && sightEffectTimer <= 0)
             {
+				GameManager.ActivateSight();
 				sightEffectTimer = 2;
             }
 
@@ -228,7 +232,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				// Jump
+				// Jump - DISABLED FOR CRIMESIGHT
 				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height

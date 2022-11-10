@@ -178,6 +178,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: blood (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5560554531432245299, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209323222666217958, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209323222666217958, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209323222666217958, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 07c9a96b84a7fc340be7c30858a526e2, type: 2}
+    - target: {fileID: 6209323222666217958, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: abcc412266f091d4bbd9ef8874fd7093, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
 --- !u!1 &87678394
@@ -1007,6 +1027,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -159.454, z: 0}
+--- !u!1 &501312662 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5560554531432245299, guid: 71c359708fa43a64c88d1f620661376f, type: 3}
+  m_PrefabInstance: {fileID: 67979455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &501312666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501312662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db632c9300bf7f4428f303b01ffc34f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &611711542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c4d2eb90e9f8b0b4c8ebf6ff291eb174, type: 3}
