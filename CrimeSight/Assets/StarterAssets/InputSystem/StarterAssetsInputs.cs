@@ -20,28 +20,56 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
+		//GameUI Script
+		public GameUI uiScript;
+		//GameManager Script
+		public GameManager gameManagerScript;
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			MoveInput(value.Get<Vector2>());
+			if (gameManagerScript.State == GameManager.GameState.Game)
+			{
+				MoveInput(value.Get<Vector2>());
+			}
 		}
 
 		public void OnLook(InputValue value)
 		{
-			if(cursorInputForLook)
+			if (gameManagerScript.State == GameManager.GameState.Game)
 			{
-				LookInput(value.Get<Vector2>());
+				if(cursorInputForLook)
+				{
+					LookInput(value.Get<Vector2>());
+				}
 			}
 		}
 
 		public void OnJump(InputValue value)
 		{
-			JumpInput(value.isPressed);
+			if (gameManagerScript.State == GameManager.GameState.Game)
+			{
+				JumpInput(value.isPressed);
+			}
 		}
 
 		public void OnSprint(InputValue value)
 		{
-			SprintInput(value.isPressed);
+			if (gameManagerScript.State == GameManager.GameState.Game)
+			{
+				SprintInput(value.isPressed);
+			}
+		}
+
+		public void OnPause(InputValue value)
+		{
+			uiScript.PauseGame();
+		}
+
+		public void OnNotebook(InputValue value)
+		{
+			uiScript.NotebookToggle();
+			Debug.Log("Notebook");
 		}
 #endif
 

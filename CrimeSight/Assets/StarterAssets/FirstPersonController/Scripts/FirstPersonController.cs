@@ -65,6 +65,9 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
+		//GameManager Script
+		public GameManager gameManagerScript;
+
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		private PlayerInput _playerInput;
