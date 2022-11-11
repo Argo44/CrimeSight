@@ -28,7 +28,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			if (gameManagerScript.State == GameManager.GameState.Game)
+			if (GameManager.State == GameManager.GameState.Game)
 			{
 				MoveInput(value.Get<Vector2>());
 			}
@@ -36,7 +36,7 @@ namespace StarterAssets
 
 		public void OnLook(InputValue value)
 		{
-			if (gameManagerScript.State == GameManager.GameState.Game)
+			if (GameManager.State == GameManager.GameState.Game)
 			{
 				if(cursorInputForLook)
 				{
@@ -47,7 +47,7 @@ namespace StarterAssets
 
 		public void OnJump(InputValue value)
 		{
-			if (gameManagerScript.State == GameManager.GameState.Game)
+			if (GameManager.State == GameManager.GameState.Game)
 			{
 				JumpInput(value.isPressed);
 			}
@@ -55,7 +55,7 @@ namespace StarterAssets
 
 		public void OnSprint(InputValue value)
 		{
-			if (gameManagerScript.State == GameManager.GameState.Game)
+			if (GameManager.State == GameManager.GameState.Game)
 			{
 				SprintInput(value.isPressed);
 			}

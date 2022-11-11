@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     static public event SightEventHandler OnSight;
 
     // Properties
-    public GameState State
+    static public GameState State
     {
         get { return state; }
         set { state = value; }

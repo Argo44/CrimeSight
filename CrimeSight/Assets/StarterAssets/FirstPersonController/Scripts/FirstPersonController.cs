@@ -65,7 +65,7 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-		//GameManager Script
+		// GameManager Script
 		public GameManager gameManagerScript;
 
 	
