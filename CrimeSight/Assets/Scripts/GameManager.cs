@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum GameState
+{
+    Menu,
+    Game
+}
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState
-    {
-        Menu,
-        Game
-    }
 
     // Fields
     static private GameState state;

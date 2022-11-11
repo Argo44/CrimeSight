@@ -34,7 +34,7 @@ public class GameUI : MonoBehaviour
             Time.timeScale = 1;
 
             //Change state in game manager
-            GameManager.State = GameManager.GameState.Game;
+            GameManager.State = GameState.Game;
 
             //Lock mouse cursor and set state back to game
             Cursor.lockState = CursorLockMode.Locked;
@@ -53,7 +53,7 @@ public class GameUI : MonoBehaviour
             Time.timeScale = 0f;
 
             //Changes game state to Menu
-            GameManager.State = GameManager.GameState.Menu;
+            GameManager.State = GameState.Menu;
 
             //Unlock mosue cursor and set state to menu
             Cursor.lockState = CursorLockMode.None;

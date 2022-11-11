@@ -5,12 +5,14 @@ using UnityEngine;
 public class HiddenObject : MonoBehaviour
 {
     private Material material;
+    private Color visColor;
+    private Color invisColor;
     private const float fadeRate = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        material = GetComponent<MeshRenderer>().material;
+        material = gameObject.GetComponent<MeshRenderer>().material;
         GameManager.OnSight += SightFade;
     }
 
