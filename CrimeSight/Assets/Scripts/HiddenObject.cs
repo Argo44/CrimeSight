@@ -13,6 +13,9 @@ public class HiddenObject : MonoBehaviour
     void Start()
     {
         material = gameObject.GetComponent<MeshRenderer>().material;
+        invisColor = visColor = material.color;
+        invisColor.a = 0;
+        visColor.a = 1;
         GameManager.OnSight += SightFade;
     }
 
@@ -24,7 +27,10 @@ public class HiddenObject : MonoBehaviour
 
     private void SightFade()
     {
-        StartCoroutine(FlashFadeCoroutine());
+        TweenManager.CreateTween(material, TweenType.MatColor, visColor, 1f, () => {
+            TweenManager.CreateTween(material, TweenType.MatColor, invisColor, 1f);
+            });
+        //StartCoroutine(FlashFadeCoroutine());
     }
 
     private IEnumerator FlashFadeCoroutine()

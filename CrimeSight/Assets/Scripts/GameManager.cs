@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        TweenManager.UpdateTweens();
     }
 
     public static void ActivateSight()

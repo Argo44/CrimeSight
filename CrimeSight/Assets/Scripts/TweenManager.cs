@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 // Describes the target object member to tween
 public enum TweenType
@@ -23,13 +24,21 @@ public static class TweenManager
     private static List<Tween> tweens = new List<Tween>();
 
     // Methods
-    public static void CreateTransformTween(Transform target, TweenType type, Vector3 endVal, float duration, TweenShape shape)
+    public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, shape));
+        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, null));
     }
-    public static void CreateMaterialTween(Material target, TweenType type, Color endVal, float duration, TweenShape shape)
+    public static void CreateTween(Material target, TweenType type, Color endVal, float duration)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, shape));
+        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, null));
+    }
+    public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration, UnityAction callback)
+    {
+        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, callback));
+    }
+    public static void CreateTween(Material target, TweenType type, Color endVal, float duration, UnityAction callback)
+    {
+        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, callback));
     }
 
     public static void UpdateTweens()
@@ -46,7 +55,7 @@ public static class TweenManager
                     switch (tweens[i].shape)
                     {
                         case TweenShape.Linear:
-                            tweens[i].transform.localPosition = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].currTime);
+                            tweens[i].transform.localPosition = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].CurrNormTime);
                             break;
                     }
                     break;
@@ -55,7 +64,7 @@ public static class TweenManager
                     {
                         case TweenShape.Linear:
                             Quaternion q = Quaternion.identity;
-                            q.eulerAngles = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].currTime);
+                            q.eulerAngles = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].CurrNormTime);
                             tweens[i].transform.localRotation = q;
                             break;
                     }
@@ -64,7 +73,7 @@ public static class TweenManager
                     switch (tweens[i].shape)
                     {
                         case TweenShape.Linear:
-                            tweens[i].transform.localScale = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].currTime);
+                            tweens[i].transform.localScale = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].CurrNormTime);
                             break;
                     }
                     break;
@@ -72,7 +81,7 @@ public static class TweenManager
                     switch (tweens[i].shape)
                     {
                         case TweenShape.Linear:
-                            tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, tweens[i].currTime);
+                            tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, tweens[i].CurrNormTime);
                             break;
                     }
                     break;
@@ -80,7 +89,11 @@ public static class TweenManager
 
             // Delete tween when finished
             if (tweens[i].currTime >= tweens[i].endTime)
+            {
+                // Invoke callback function if it exists
+                tweens[i].onCallback?.Invoke();
                 tweens.RemoveAt(i--);
+            }
         }
     }
 
@@ -98,14 +111,23 @@ public static class TweenManager
         public float currTime = 0;
         public float endTime;
         public TweenShape shape;
+        public UnityAction onCallback;
 
-        public Tween(Transform target, TweenType type, Vector3 endVal, float duration, TweenShape shape)
+        // Properties
+        public float CurrNormTime
+        {
+            get { return currTime / endTime; }
+        }
+
+        // Constructors
+        public Tween(Transform target, TweenType type, Vector3 endVal, float duration, TweenShape shape, UnityAction callback)
         {
             transform = target;
             this.type = type;
             endTime = duration;
             this.shape = shape;
             endV3 = endVal;
+            onCallback = callback;
 
             switch (type)
             {
@@ -121,7 +143,7 @@ public static class TweenManager
             }
         }
 
-        public Tween(Material target, TweenType type, Color endVal, float duration, TweenShape shape)
+        public Tween(Material target, TweenType type, Color endVal, float duration, TweenShape shape, UnityAction callback)
         {
             material = target;
             startColor = material.color;
@@ -129,6 +151,7 @@ public static class TweenManager
             endTime = duration;
             this.shape = shape;
             endColor = endVal;
+            onCallback = callback;
         }
     }
 }
