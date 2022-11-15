@@ -9,23 +9,50 @@ public enum InteractableType
     ActiveClue,
 }
 
+public enum MonsterType
+{
+    Monster1,
+    Monster2,
+    Vampire,
+    Ghost,
+}
+
 public class InteractableManager : MonoBehaviour
 {
+    //List of interactable locations and an int to track its total
     [SerializeField]
     public List<GameObject> interactableLocations = new List<GameObject>();
+    private int locationNum;
 
+    //Monster Type to determine what interactables should be used
+    public MonsterType monsterType;
+
+
+    //Prefabs For Clues
     public GameObject activeObject;
     public GameObject inactiveObject;
 
+    public GameObject greenClue;
+    public GameObject blueClue;
+    public GameObject purpleClue;
+
+    //List of prefabs 
+    private List<GameObject> cluePrefab = new List<GameObject>();
+    private List<ClueType> clueTypes = new List<ClueType>();
+
+    //All of the active objects in the scene
     [SerializeField]
     public List<Interactable> activeObjects = new List<Interactable>();
 
-    private int[] chosenNumbers;
-    private int clueAmount = 2;
+    private List<int> chosenLocations = new List<int>();
+    private int clueAmount;
 
     // Start is called before the first frame update
     void Start()
     {
+        locationNum = interactableLocations.Count;
+
+        ClueTypes();
         FindActiveObjects();
     }
 
@@ -35,6 +62,64 @@ public class InteractableManager : MonoBehaviour
         
     }
 
+    void ClueTypes()
+    {
+        //Find Monster Type
+        switch(monsterType)
+        {
+            case MonsterType.Monster1:
+                cluePrefab.Add(greenClue);
+                clueTypes.Add(ClueType.Green);
+
+                cluePrefab.Add(blueClue);
+                clueTypes.Add(ClueType.Blue);
+
+                cluePrefab.Add(greenClue);
+                clueTypes.Add(ClueType.Green);
+
+                clueAmount = 3;
+                break;
+
+            case MonsterType.Monster2:
+                cluePrefab.Add(purpleClue);
+                clueTypes.Add(ClueType.Purple);
+
+                cluePrefab.Add(blueClue);
+                clueTypes.Add(ClueType.Blue);
+
+                clueAmount = 2;
+                break;
+
+            case MonsterType.Ghost:
+                cluePrefab.Add(blueClue);
+                clueTypes.Add(ClueType.Blue);
+
+                clueAmount = 1;
+                break;
+
+            case MonsterType.Vampire:
+                cluePrefab.Add(purpleClue);
+                clueTypes.Add(ClueType.Purple);
+
+                clueAmount = 1;
+                break;
+
+            default:
+                cluePrefab.Add(greenClue);
+                clueTypes.Add(ClueType.Green);
+
+                cluePrefab.Add(blueClue);
+                clueTypes.Add(ClueType.Blue);
+
+                cluePrefab.Add(purpleClue);
+                clueTypes.Add(ClueType.Purple);
+
+                clueAmount = 3;
+                break;
+        }
+
+    }
+
     void FindActiveObjects()
     {
         bool isUsed = false;
@@ -42,14 +127,14 @@ public class InteractableManager : MonoBehaviour
         
         for (int i = 0; i < clueAmount; i++)
         {
-            if (chosenNumbers != null)
+            if (chosenLocations != null)
             { 
                 do
                 {
-                    int randomNumber = Random.Range(0, 5);
-                    for (int j = 0; j < chosenNumbers.Length; j++)
+                    int randomNumber = Random.Range(0, locationNum);
+                    for (int j = 0; j < chosenLocations.Count; j++)
                     {
-                        if (randomNumber == chosenNumbers[i])
+                        if (randomNumber == chosenLocations[j])
                         {
                             isUsed = true;
                         }
@@ -60,36 +145,33 @@ public class InteractableManager : MonoBehaviour
                         itemNum = randomNumber;
 
                     }
-
-                    Debug.Log(randomNumber);
-
+                    //Debug.Log(randomNumber);
                 } while (isUsed == true);
 
-                Debug.Log("Adding New Object");
+                chosenLocations.Add(itemNum);
 
-                Interactable newInteractable = Instantiate(activeObject, interactableLocations[itemNum].transform.position,
+                Debug.Log(itemNum);
+                Interactable newInteractable = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
                          Quaternion.identity, transform).GetComponent<Interactable>();
                 activeObjects.Add(newInteractable);
             }
             else
             {
-                itemNum = Random.Range(0, 5);
-                Interactable newInteractable = Instantiate(activeObject, interactableLocations[itemNum].transform.position,
+                itemNum = Random.Range(0, locationNum);
+                chosenLocations.Add(itemNum);
+
+                Debug.Log(itemNum);
+                Interactable newInteractable = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
                       Quaternion.identity, transform).GetComponent<Interactable>();
                 activeObjects.Add(newInteractable);
             }
         }
 
+        //Debug.Log("Active Objects has been filled");
 
-
-        Debug.Log("Active Objects has been filled");
-
-/*        for (int i = 0; i < clueAmount; i++)
+        for (int i = 0; i < clueAmount; i++)
         {
-            Debug.Log(activeObjects[i]);
-            activeObjects[i].Initialize();
-        }*/
-
-
+            activeObjects[i].Initialize(clueTypes[i]);
+        }
     }
 }

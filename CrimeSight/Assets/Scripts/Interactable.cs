@@ -2,26 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ClueType
+{
+    Green,
+    Blue,
+    Purple,
+}
+
 public class Interactable : MonoBehaviour
 {
     private bool initialized = false;
+    public ClueType type;
+
+    private string clueName;
+    private string info;
     //private bool isSelected = false;
     //private bool isFound = false;
-
-    public
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Initialize(type);
     }
 
-    public void Initialize()
+    public void Initialize(ClueType _type)
     {
         // Only initialize once
         if (!initialized)
         {
-            initialized = true; 
+            initialized = true;
+
+            //Type of clue that it is
+            switch (_type)
+            {
+                case ClueType.Green:
+                    clueName = "Green";
+                    info = "This is a green clue";
+                    break;
+
+                case ClueType.Blue:
+                    clueName = "Blue";
+                    info = "This is a blue clue";
+                    break;
+
+                case ClueType.Purple:
+                    clueName = "Purple";
+                    info = "This is a purple clue";
+                    break;
+
+                default:
+                    clueName = "Default";
+                    info = "Default";
+                    break;
+            }
         }
     }
 
