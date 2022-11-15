@@ -69,7 +69,11 @@ namespace StarterAssets
 		public void OnNotebook(InputValue value)
 		{
 			uiScript.NotebookToggle();
-			Debug.Log("Notebook");
+		}
+
+		public void OnInteract(InputValue value)
+		{
+			uiScript.numOfNewClues++;
 		}
 #endif
 
