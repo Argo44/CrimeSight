@@ -16,6 +16,11 @@ public class Clue : Interactable
         
     }
 
+    // move Initialize to Clue component
+    // Create callback method in InteractableManager
+    // When clue.OnInteract is called, invoke callback
+    // Callback alerts UI of new clue
+
     public override void OnInteract()
     {
         // Add clue to notebook

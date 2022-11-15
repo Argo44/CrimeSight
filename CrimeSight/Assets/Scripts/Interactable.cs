@@ -25,6 +25,7 @@ public class Interactable : MonoBehaviour
         //Initialize(type);
     }
 
+    // move Initialize to Clue component
     public void Initialize(ClueType _type)
     {
         // Only initialize once

@@ -75,7 +75,7 @@ namespace StarterAssets
 		{
 			if (gameManagerScript.selectedObject != null)
 				gameManagerScript.selectedObject.OnInteract();
-			//uiScript.numOfNewClues++;
+			uiScript.numOfNewClues++;
 		}
 #endif
 

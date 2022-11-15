@@ -44,7 +44,6 @@ public class InteractableManager : MonoBehaviour
     [SerializeField]
     public List<Interactable> activeObjects = new List<Interactable>();
 
-    private List<int> chosenLocations = new List<int>();
     private int clueAmount;
 
     // Start is called before the first frame update
@@ -122,56 +121,28 @@ public class InteractableManager : MonoBehaviour
 
     void FindActiveObjects()
     {
-        bool isUsed = false;
-        int itemNum = -1;
+        int itemNum;
+
+        // Generate list of location IDs
+        List<int> unusedLocationIDs = new List<int>();
+        for (int i = 0; i < locationNum; i++)
+            unusedLocationIDs.Add(i);
         
         for (int i = 0; i < clueAmount; i++)
         {
-            if (chosenLocations != null)
-            { 
-                do
-                {
-                    int randomNumber = Random.Range(0, locationNum);
-                    for (int j = 0; j < chosenLocations.Count; j++)
-                    {
-                        if (randomNumber == chosenLocations[j])
-                        {
-                            isUsed = true;
-                        }
-                    }
+            // Pick unused ID and remove from list
+            itemNum = unusedLocationIDs[Random.Range(0, unusedLocationIDs.Count)];
+            unusedLocationIDs.Remove(itemNum);
+         
+            Debug.Log(itemNum);
 
-                    if (!isUsed)
-                    {
-                        itemNum = randomNumber;
+            // Create new clue object at chosen location
+            Interactable newInteractable = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
+                     Quaternion.identity, transform).GetComponent<Interactable>();
 
-                    }
-                    //Debug.Log(randomNumber);
-                } while (isUsed == true);
-
-                chosenLocations.Add(itemNum);
-
-                Debug.Log(itemNum);
-                Interactable newInteractable = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
-                         Quaternion.identity, transform).GetComponent<Interactable>();
-                activeObjects.Add(newInteractable);
-            }
-            else
-            {
-                itemNum = Random.Range(0, locationNum);
-                chosenLocations.Add(itemNum);
-
-                Debug.Log(itemNum);
-                Interactable newInteractable = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
-                      Quaternion.identity, transform).GetComponent<Interactable>();
-                activeObjects.Add(newInteractable);
-            }
-        }
-
-        //Debug.Log("Active Objects has been filled");
-
-        for (int i = 0; i < clueAmount; i++)
-        {
-            activeObjects[i].Initialize(clueTypes[i]);
+            // Add and initialize new clue
+            activeObjects.Add(newInteractable);
+            newInteractable.Initialize(clueTypes[i]);
         }
     }
 }
