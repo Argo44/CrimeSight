@@ -4,13 +4,28 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    private bool initialized = false;
+    //private bool isSelected = false;
+    //private bool isFound = false;
+
+    public
+
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    public void Initialize()
+    {
+        // Only initialize once
+        if (!initialized)
+        {
+            initialized = true; 
+        }
+    }
+
+            // Update is called once per frame
     void Update()
     {
         
