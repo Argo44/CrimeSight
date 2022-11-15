@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     // Fields
     static private GameState state;
-    private Interactable selectedObject;
+    public Interactable selectedObject;
 
     public delegate void SightEventHandler();
     static public event SightEventHandler OnSight;
@@ -49,15 +49,12 @@ public class GameManager : MonoBehaviour
         
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log("Hit!");
             Transform hitObj = hit.transform;
             // Only select Interactable objects
             if (hitObj.GetComponent<Interactable>() != null)
             {
-                Debug.Log(hitObj.gameObject);
-
                 // If new object was hit, deselect current object
-                if (selectedObject != hitObj && selectedObject != null)
+                if (selectedObject != null && selectedObject.transform != hitObj)
                 {
                     selectedObject.OnDeselect();
                     selectedObject = null;
@@ -68,8 +65,12 @@ public class GameManager : MonoBehaviour
                 {
                     selectedObject = hitObj.GetComponent<Interactable>();
                     selectedObject.OnSelect();
-                    Debug.Log("Object selected!");
                 }
+            }
+            else if (selectedObject != null) // If no Interactable hit, deselect object
+            {
+                selectedObject.OnDeselect();
+                selectedObject = null;
             }
         }
         else if (selectedObject != null) // If no hit, deselect object
