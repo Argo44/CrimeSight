@@ -14,6 +14,7 @@ public class GameUI : MonoBehaviour
     public GameObject notebookText;
     public GameObject notification;
     public GameObject notifcationNumber;
+    public GameObject crosshair;
 
     public int numOfNewClues = 0;
     private bool notebookIsClosed = true;
@@ -51,6 +52,7 @@ public class GameUI : MonoBehaviour
             pauseScreen.SetActive(false);
             notification.SetActive(true);
             notebook.SetActive(true);
+            crosshair.SetActive(true);
 
             //Sets timeScale back to 1 so game can resume
             Time.timeScale = 1;
@@ -71,6 +73,7 @@ public class GameUI : MonoBehaviour
             notebook.transform.position = new Vector3(960, -500, 0);
             notebook.SetActive(false);
             notification.SetActive(false);
+            crosshair.SetActive(false);
 
             //Sets time scale to 0 so game pauses
             Time.timeScale = 0f;
@@ -94,6 +97,7 @@ public class GameUI : MonoBehaviour
         if (!pauseScreen.activeInHierarchy)
         {
             numOfNewClues = 0;
+            crosshair.SetActive(!notebookIsClosed);
         }
        
         if (notebook != null)
