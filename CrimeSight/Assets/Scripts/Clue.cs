@@ -15,4 +15,11 @@ public class Clue : Interactable
     {
         
     }
+
+    public override void OnInteract()
+    {
+        // Add clue to notebook
+        // Remove object(?)
+        Debug.Log("Clue collected!");
+    }
 }

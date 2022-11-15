@@ -15,4 +15,18 @@ public class Trap : Interactable
     {
         
     }
+
+    public override void OnInteract()
+    {
+        // Start disarm QTE
+        Debug.Log("Trap disarmed!");
+    }
+
+    /// <summary>
+    /// Deals damage to player and disables this trap
+    /// </summary>
+    public void OnDetonate()
+    {
+        Debug.Log("A trap went off!");
+    }
 }
