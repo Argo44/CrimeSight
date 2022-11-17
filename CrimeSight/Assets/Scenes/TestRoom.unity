@@ -5290,7 +5290,7 @@ MonoBehaviour:
   - {fileID: 5352197}
   - {fileID: 731181481}
   - {fileID: 173418863}
-  GameUI_Object: {fileID: 1318850961}
+  canvasObj: {fileID: 1318850961}
   monsterType: 0
   activeObject: {fileID: 7453320509852636782, guid: 2b486f92c1a3fdb419a6f6e9cfecdcc4, type: 3}
   inactiveObject: {fileID: 8868724228006413854, guid: c3f65fed907a72345ad825ddfde57bfa, type: 3}
