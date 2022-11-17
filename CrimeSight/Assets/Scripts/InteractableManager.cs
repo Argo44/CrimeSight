@@ -24,9 +24,12 @@ public class InteractableManager : MonoBehaviour
     public List<GameObject> interactableLocations = new List<GameObject>();
     private int locationNum;
 
+    // Reference to Notebook UI
+    public GameObject canvasObj;
+    private GameUI uiScript;
+
     //Monster Type to determine what interactables should be used
     public MonsterType monsterType;
-
 
     //Prefabs For Clues
     public GameObject activeObject;
@@ -42,7 +45,7 @@ public class InteractableManager : MonoBehaviour
 
     //All of the active objects in the scene
     [SerializeField]
-    public List<Interactable> activeObjects = new List<Interactable>();
+    public List<Clue> activeObjects = new List<Clue>();
 
     private int clueAmount;
 
@@ -50,6 +53,7 @@ public class InteractableManager : MonoBehaviour
     void Start()
     {
         locationNum = interactableLocations.Count;
+        uiScript = canvasObj.GetComponent<GameUI>();
 
         ClueTypes();
         FindActiveObjects();
@@ -137,12 +141,12 @@ public class InteractableManager : MonoBehaviour
             Debug.Log(itemNum);
 
             // Create new clue object at chosen location
-            Interactable newInteractable = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
-                     Quaternion.identity, transform).GetComponent<Interactable>();
+            Clue newClue = Instantiate(cluePrefab[i], interactableLocations[itemNum].transform.position,
+                     Quaternion.identity, transform).GetComponent<Clue>();
 
             // Add and initialize new clue
-            activeObjects.Add(newInteractable);
-            newInteractable.Initialize(clueTypes[i]);
+            activeObjects.Add(newClue);
+            newClue.Initialize(clueTypes[i], () => { uiScript.numOfNewClues++; });
         }
     }
 }

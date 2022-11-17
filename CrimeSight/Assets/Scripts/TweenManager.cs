@@ -15,7 +15,8 @@ public enum TweenType
 // Describes the rate of tweening from start to end
 public enum TweenShape
 {
-    Linear
+    Linear,
+    EaseInOut
 }
 
 public static class TweenManager
@@ -43,10 +44,23 @@ public static class TweenManager
 
     public static void UpdateTweens()
     {
+        float lerpVal = 0f;
+
         for (int i = 0; i < tweens.Count; i++)
         {
             // Update tween time
             tweens[i].currTime = Mathf.Min(tweens[i].currTime + Time.deltaTime, tweens[i].endTime);
+
+            // Determine tween 
+            switch (tweens[i].shape)
+            {
+                case TweenShape.Linear:
+                    lerpVal = tweens[i].CurrNormTime;
+                    break;
+                case TweenShape.EaseInOut: // Uses formula: y = cbrt(0.25 * (x - 0.5)) + 0.5
+                    lerpVal = Mathf.Pow( 0.25f * (tweens[i].CurrNormTime - 0.5f), 1.0f / 3.0f) + 0.5f;
+                    break;
+            }
 
             // Tween each separate type
             switch (tweens[i].type)
@@ -55,7 +69,7 @@ public static class TweenManager
                     switch (tweens[i].shape)
                     {
                         case TweenShape.Linear:
-                            tweens[i].transform.localPosition = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].CurrNormTime);
+                            tweens[i].transform.localPosition = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
                             break;
                     }
                     break;
@@ -64,7 +78,7 @@ public static class TweenManager
                     {
                         case TweenShape.Linear:
                             Quaternion q = Quaternion.identity;
-                            q.eulerAngles = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].CurrNormTime);
+                            q.eulerAngles = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
                             tweens[i].transform.localRotation = q;
                             break;
                     }
@@ -73,7 +87,7 @@ public static class TweenManager
                     switch (tweens[i].shape)
                     {
                         case TweenShape.Linear:
-                            tweens[i].transform.localScale = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, tweens[i].CurrNormTime);
+                            tweens[i].transform.localScale = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
                             break;
                     }
                     break;
@@ -81,7 +95,7 @@ public static class TweenManager
                     switch (tweens[i].shape)
                     {
                         case TweenShape.Linear:
-                            tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, tweens[i].CurrNormTime);
+                            tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, lerpVal);
                             break;
                     }
                     break;
@@ -114,6 +128,10 @@ public static class TweenManager
         public UnityAction onCallback;
 
         // Properties
+
+        /// <summary>
+        /// A value in the range [0, 1] representing how far along the tween is
+        /// </summary>
         public float CurrNormTime
         {
             get { return currTime / endTime; }

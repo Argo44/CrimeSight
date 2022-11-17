@@ -23,14 +23,10 @@ namespace StarterAssets
 		public float SpeedChangeRate = 10.0f;
 
 		[Space(10)]
-		[Tooltip("The height the player can jump")]
-		public float JumpHeight = 1.2f;
 		[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
 		public float Gravity = -15.0f;
 
 		[Space(10)]
-		[Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-		public float JumpTimeout = 0.1f;
 		[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 		public float FallTimeout = 0.15f;
 
@@ -62,7 +58,6 @@ namespace StarterAssets
 		private float _terminalVelocity = 53.0f;
 
 		// timeout deltatime
-		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
 		// GameManager Script
@@ -76,9 +71,11 @@ namespace StarterAssets
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 
-		// POSTPROCESS TESTING
+		// Sight Ability Data
 		private PostProcessVolume postProcess;
 		private float sightEffectTimer = 0f;
+		private const float SIGHT_COOLDOWN = 10f;
+		private float sightCooldownTimer = 0f;
 
 		private const float _threshold = 0.01f;
 
@@ -115,28 +112,15 @@ namespace StarterAssets
 #endif
 
 			// reset our timeouts on start
-			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 		}
 
 		private void Update()
         {
-			// Test code for Sight post processing effect
-			if (sightEffectTimer > 0)
-			{
-				postProcess.weight = -1 * Mathf.Pow(sightEffectTimer - 1, 2) + 1;
-				sightEffectTimer -= Time.deltaTime;
-			}
-			else
-				postProcess.weight = 0;
+			// Sight ability calculations
+			SightUpdate();
 
-            if (_input.jump && sightEffectTimer <= 0)
-            {
-				GameManager.ActivateSight();
-				sightEffectTimer = 2;
-				_input.jump = false;
-            }
-
+			// Movement calculations
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -145,6 +129,35 @@ namespace StarterAssets
 		private void LateUpdate()
 		{
 			CameraRotation();
+		}
+
+		private void SightUpdate()
+        {
+			// Update cooldown
+			if (sightCooldownTimer > 0)
+				sightCooldownTimer -= Time.deltaTime;
+
+			// Update Sight effect while active
+			if (sightEffectTimer > 0)
+			{
+				postProcess.weight = -1 * Mathf.Pow(sightEffectTimer - 1, 2) + 1;
+				sightEffectTimer -= Time.deltaTime;
+			}
+
+			// If input activated, check cooldown
+			if (_input.jump)
+            {
+				// If Sight is ready, activate
+				if (sightCooldownTimer <= 0)
+				{
+					GameManager.ActivateSight();
+					sightEffectTimer = 2;
+					sightCooldownTimer = SIGHT_COOLDOWN;
+				}
+
+				// Deactivate input
+				_input.jump = false;
+            }
 		}
 
 		private void GroundedCheck()
@@ -235,26 +248,9 @@ namespace StarterAssets
 				{
 					_verticalVelocity = -2f;
 				}
-
-				// Jump - DISABLE FOR CRIMESIGHT
-				//if (_input.jump && _jumpTimeoutDelta <= 0.0f)
-				//{
-				//	// the square root of H * -2 * G = how much velocity needed to reach desired height
-				//	_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-				//}
-
-				// jump timeout
-				if (_jumpTimeoutDelta >= 0.0f)
-				{
-					_jumpTimeoutDelta -= Time.deltaTime;
-				}
 			}
 			else
-			{
-				// reset the jump timeout timer
-				_jumpTimeoutDelta = JumpTimeout;
-
-				// fall timeout
+			{// fall timeout
 				if (_fallTimeoutDelta >= 0.0f)
 				{
 					_fallTimeoutDelta -= Time.deltaTime;

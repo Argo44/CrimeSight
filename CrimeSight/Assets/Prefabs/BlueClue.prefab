@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7207084649105410114}
   - component: {fileID: 5296953555326603552}
   - component: {fileID: 8184013242892974471}
-  - component: {fileID: 6781442224601819700}
+  - component: {fileID: 669604568551153338}
   m_Layer: 0
   m_Name: BlueClue
   m_TagString: Untagged
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6781442224601819700
+--- !u!114 &669604568551153338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1249475716718843951}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d5856b1843a0924ca310ae1d615cc79, type: 3}
+  m_Script: {fileID: 11500000, guid: e2c5046c1c85378478e57eaf02c7d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1

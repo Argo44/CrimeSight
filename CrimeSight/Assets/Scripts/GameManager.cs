@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     // Fields
     static private GameState state;
-    public Interactable selectedObject;
+    private static Interactable selectedObject;
 
     public delegate void SightEventHandler();
     static public event SightEventHandler OnSight;
@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
     {
         get { return state; }
         set { state = value; }
+    }
+    static public Interactable SelectedObject
+    {
+        get { return selectedObject; }
+        // GameManager is in charge of what the selected object is, so no set accessor
     }
 
 

@@ -1741,7 +1741,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5856b1843a0924ca310ae1d615cc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
 --- !u!64 &501312674
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4819,7 +4818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef1e663d096d384ba7f0fdd0b91ee96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedObject: {fileID: 0}
 --- !u!1 &1341766553
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,6 +5290,7 @@ MonoBehaviour:
   - {fileID: 5352197}
   - {fileID: 731181481}
   - {fileID: 173418863}
+  GameUI_Object: {fileID: 1318850961}
   monsterType: 0
   activeObject: {fileID: 7453320509852636782, guid: 2b486f92c1a3fdb419a6f6e9cfecdcc4, type: 3}
   inactiveObject: {fileID: 8868724228006413854, guid: c3f65fed907a72345ad825ddfde57bfa, type: 3}

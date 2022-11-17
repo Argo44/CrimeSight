@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1019321985012959275}
   - component: {fileID: 5788232945517961100}
   - component: {fileID: 8507788940767482574}
-  - component: {fileID: 7607709303130673676}
+  - component: {fileID: 8835121418368205552}
   m_Layer: 0
   m_Name: PurpleClue
   m_TagString: Untagged
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7607709303130673676
+--- !u!114 &8835121418368205552
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3249432635132609610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d5856b1843a0924ca310ae1d615cc79, type: 3}
+  m_Script: {fileID: 11500000, guid: e2c5046c1c85378478e57eaf02c7d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 2
