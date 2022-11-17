@@ -154,6 +154,8 @@ namespace StarterAssets
 					sightEffectTimer = 2;
 					sightCooldownTimer = SIGHT_COOLDOWN;
 				}
+				else // Add player feedback for invalid input?
+					Debug.Log("Sight on cooldown for " + sightCooldownTimer + " seconds");
 
 				// Deactivate input
 				_input.jump = false;

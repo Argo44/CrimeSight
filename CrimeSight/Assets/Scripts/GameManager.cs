@@ -89,4 +89,16 @@ public class GameManager : MonoBehaviour
     {
         OnSight?.Invoke();
     }
+
+
+    public static bool IsObjectVisible(GameObject obj)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+        Vector3 point = obj.transform.position;
+
+        foreach (Plane p in planes)
+            if (p.GetDistanceToPoint(point) > 0) return false;
+
+        return true;
+    }
 }

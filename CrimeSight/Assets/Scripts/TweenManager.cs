@@ -27,19 +27,27 @@ public static class TweenManager
     // Methods
     public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, null));
+        CreateTween(target, type, endVal, duration, null);
     }
     public static void CreateTween(Material target, TweenType type, Color endVal, float duration)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, null));
+        CreateTween(target, type, endVal, duration, null);
     }
     public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration, UnityAction callback)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, callback));
+        CreateTween(target, type, endVal, duration, TweenShape.Linear, callback);
     }
     public static void CreateTween(Material target, TweenType type, Color endVal, float duration, UnityAction callback)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, TweenShape.Linear, callback));
+        CreateTween(target, type, endVal, duration, TweenShape.Linear, callback);
+    }
+    public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration, TweenShape shape, UnityAction callback)
+    {
+        tweens.Add(new Tween(target, type, endVal, duration, shape, callback));
+    }
+    public static void CreateTween(Material target, TweenType type, Color endVal, float duration, TweenShape shape, UnityAction callback)
+    {
+        tweens.Add(new Tween(target, type, endVal, duration, shape, callback));
     }
 
     public static void UpdateTweens()
@@ -66,38 +74,21 @@ public static class TweenManager
             switch (tweens[i].type)
             {
                 case TweenType.Translation:
-                    switch (tweens[i].shape)
-                    {
-                        case TweenShape.Linear:
-                            tweens[i].transform.localPosition = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
-                            break;
-                    }
+                        tweens[i].transform.localPosition = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
                     break;
+
                 case TweenType.Rotation:
-                    switch (tweens[i].shape)
-                    {
-                        case TweenShape.Linear:
-                            Quaternion q = Quaternion.identity;
-                            q.eulerAngles = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
-                            tweens[i].transform.localRotation = q;
-                            break;
-                    }
+                        Quaternion q = Quaternion.identity;
+                        q.eulerAngles = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
+                        tweens[i].transform.localRotation = q;
                     break;
+
                 case TweenType.Scale:
-                    switch (tweens[i].shape)
-                    {
-                        case TweenShape.Linear:
-                            tweens[i].transform.localScale = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
-                            break;
-                    }
+                        tweens[i].transform.localScale = Vector3.Lerp(tweens[i].startV3, tweens[i].endV3, lerpVal);
                     break;
+
                 case TweenType.MatColor:
-                    switch (tweens[i].shape)
-                    {
-                        case TweenShape.Linear:
-                            tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, lerpVal);
-                            break;
-                    }
+                        tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, lerpVal);
                     break;
             }
 

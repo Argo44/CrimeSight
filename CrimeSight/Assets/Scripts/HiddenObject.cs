@@ -31,6 +31,9 @@ public class HiddenObject : MonoBehaviour
 
     private void SightFade()
     {
+        // Only fade if visible to camera - NOT WORKING YET
+        //if (!GameManager.IsObjectVisible(gameObject)) return;
+
         TweenManager.CreateTween(material, TweenType.MatColor, visColor, 1f, () => {
             if (!isMarkable)
                 TweenManager.CreateTween(material, TweenType.MatColor, invisColor, 1f);
