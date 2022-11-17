@@ -146,7 +146,11 @@ public class InteractableManager : MonoBehaviour
 
             // Add and initialize new clue
             activeObjects.Add(newClue);
-            newClue.Initialize(clueTypes[i], () => { uiScript.numOfNewClues++; });
+            newClue.Initialize(clueTypes[i], () => { 
+                uiScript.numOfNewClues++;
+                activeObjects.Remove(newClue);
+                newClue.gameObject.SetActive(false);
+            });
         }
     }
 }

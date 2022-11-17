@@ -66,7 +66,16 @@ public static class TweenManager
                     lerpVal = tweens[i].CurrNormTime;
                     break;
                 case TweenShape.EaseInOut: // Uses formula: y = cbrt(0.25 * (x - 0.5)) + 0.5
-                    lerpVal = Mathf.Pow( 0.25f * (tweens[i].CurrNormTime - 0.5f), 1.0f / 3.0f) + 0.5f;
+                    //lerpVal = Mathf.Pow( 0.25f * (tweens[i].CurrNormTime - 0.5f), 1.0f / 3.0f) + 0.5f;
+                    lerpVal = tweens[i].CurrNormTime;
+                    Debug.Log("CurrNormTime: " + lerpVal);
+                    lerpVal -= 0.5f;
+                    lerpVal *= 0.25f;
+                    Debug.Log("Pre-pow val: " + lerpVal);
+                    lerpVal = Mathf.Pow(lerpVal, 1.0f / 3.0f);
+                    Debug.Log("Cubic root: " + lerpVal);
+                    lerpVal += 0.5f;
+                    Debug.Log("Final tween val: " + lerpVal);
                     break;
             }
 

@@ -38,9 +38,9 @@ public class ActionObject : Interactable
 
         // Tween to opposite state
         // Only tween when states differ
-        if (isActivated)
+        if (!isActivated)
         {
-            // Tween to original state
+            // Tween to activated state
             if (activatedPosition != inactivePos)
                 TweenManager.CreateTween(transform, TweenType.Translation, activatedPosition, tweenTime, tweenShape, null);
             if (activatedRotation != inactiveRot)
@@ -48,7 +48,7 @@ public class ActionObject : Interactable
         }
         else
         {
-            // Tween to activated state
+            // Tween to original state
             if (activatedPosition != inactivePos)
                 TweenManager.CreateTween(transform, TweenType.Translation, inactivePos, tweenTime, tweenShape, null);
             if (activatedRotation != inactiveRot)

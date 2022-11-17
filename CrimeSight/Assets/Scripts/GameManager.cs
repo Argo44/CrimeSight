@@ -4,7 +4,8 @@ using UnityEngine;
 public enum GameState
 {
     Menu,
-    Game
+    Game,
+    QTE
 }
 
 public class GameManager : MonoBehaviour
@@ -39,8 +40,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Select object centered in front of camera
         RaySelect();
 
+        // Update any tweening objects
         TweenManager.UpdateTweens();
     }
 
