@@ -72,8 +72,6 @@ namespace StarterAssets
 		private GameObject _mainCamera;
 
 		// Sight Ability Data
-		private PostProcessVolume postProcess;
-		private float sightEffectTimer = 0f;
 		private const float SIGHT_COOLDOWN = 10f;
 		private float sightCooldownTimer = 0f;
 
@@ -104,7 +102,6 @@ namespace StarterAssets
 		{
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
-			postProcess = _mainCamera.GetComponent<PostProcessVolume>(); // POSTPROCESS TESTING
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 			_playerInput = GetComponent<PlayerInput>();
 #else
@@ -137,13 +134,6 @@ namespace StarterAssets
 			if (sightCooldownTimer > 0)
 				sightCooldownTimer -= Time.deltaTime;
 
-			// Update Sight effect while active
-			if (sightEffectTimer > 0)
-			{
-				postProcess.weight = -1 * Mathf.Pow(sightEffectTimer - 1, 2) + 1;
-				sightEffectTimer -= Time.deltaTime;
-			}
-
 			// If input activated, check cooldown
 			if (_input.jump)
             {
@@ -151,7 +141,6 @@ namespace StarterAssets
 				if (sightCooldownTimer <= 0)
 				{
 					GameManager.ActivateSight();
-					sightEffectTimer = 2;
 					sightCooldownTimer = SIGHT_COOLDOWN;
 				}
 				else // Add player feedback for invalid input?

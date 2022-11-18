@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class HiddenObject : MonoBehaviour
 {
+    private MeshRenderer renderer;
     private Material material;
     private Color visColor;
     private Color invisColor;
-    private bool isMarkable;
+    public bool isMarkable = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        material = gameObject.GetComponent<MeshRenderer>().material;
+        renderer = gameObject.GetComponent<MeshRenderer>();
+        material = renderer.material;
         invisColor = visColor = material.color;
-        invisColor.a = 0.5f;
+        invisColor.a = 0f;
         visColor.a = 1;
 
         // If object is interactable, it will stay visible once seen with Sight
@@ -31,12 +33,17 @@ public class HiddenObject : MonoBehaviour
 
     private void SightFade()
     {
-        // Only fade if visible to camera - NOT WORKING YET
-        //if (!GameManager.IsObjectVisible(gameObject)) return;
+        // Only fade if visible to camera - STILL FADES THROUGH WALLS
+        if (!renderer.isVisible) return;
 
-        TweenManager.CreateTween(material, TweenType.MatColor, visColor, 1f, () => {
-            if (!isMarkable)
+        // Keep object visisble if it is markable; otherwise, fade back to invisible
+        if (!isMarkable)
+            TweenManager.CreateTween(material, TweenType.MatColor, visColor, 1f);
+        else
+        {
+            TweenManager.CreateTween(material, TweenType.MatColor, visColor, 1f, () => {
                 TweenManager.CreateTween(material, TweenType.MatColor, invisColor, 1f);
             });
+        }
     }
 }

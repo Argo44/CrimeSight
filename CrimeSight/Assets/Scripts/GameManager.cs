@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+
 public enum GameState
 {
     Menu,
@@ -8,15 +10,21 @@ public enum GameState
     QTE
 }
 
+// Delegate for handling HiddenObject activation on Sight usage
+public delegate void SightEventHandler();
+
 public class GameManager : MonoBehaviour
 {
 
     // Fields
     static private GameState state;
-    private static Interactable selectedObject;
+    static private Interactable selectedObject;
+    private const float MAX_VIEW_DIST = 3.5f;
 
-    public delegate void SightEventHandler();
+    // Sight Data
     static public event SightEventHandler OnSight;
+    private PostProcessVolume sightCamEffect;
+    static private float sightTimer = 0;
 
     // Properties
     static public GameState State
@@ -35,6 +43,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         state = GameState.Game;
+        sightCamEffect = Camera.main.GetComponent<PostProcessVolume>();
     }
 
     // Update is called once per frame
@@ -42,6 +51,9 @@ public class GameManager : MonoBehaviour
     {
         // Select object centered in front of camera
         RaySelect();
+
+        // Update sight post-process effect
+        SightPostProcessing();
 
         // Update any tweening objects
         TweenManager.UpdateTweens();
@@ -58,8 +70,16 @@ public class GameManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Transform hitObj = hit.transform;
-            // Only select Interactable objects
-            if (hitObj.GetComponent<Interactable>() != null)
+
+            if (hit.distance > MAX_VIEW_DIST) // If hit is too far, deselect object
+            {
+                if (selectedObject != null)
+                {
+                    selectedObject.OnDeselect();
+                    selectedObject = null;
+                }
+            }
+            else if (hitObj.GetComponent<Interactable>() != null) // If Interactable object is hit, check for selection
             {
                 // If new object was hit, deselect current object
                 if (selectedObject != null && selectedObject.transform != hitObj)
@@ -88,8 +108,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SightPostProcessing()
+    {
+        // Only update if sight is active
+        if (sightTimer <= 0) return;
+        sightTimer -= Time.deltaTime;
+
+        // Update post-process weight
+        // Creates transition that lingers at high values
+        sightCamEffect.weight = -1 * Mathf.Pow(sightTimer - 1, 2) + 1;
+    }
+
     public static void ActivateSight()
     {
+        sightTimer = 2f;
         OnSight?.Invoke();
     }
 

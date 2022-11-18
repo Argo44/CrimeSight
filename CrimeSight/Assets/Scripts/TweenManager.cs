@@ -16,6 +16,8 @@ public enum TweenType
 public enum TweenShape
 {
     Linear,
+    EaseIn,
+    EaseOut,
     EaseInOut
 }
 
@@ -59,27 +61,29 @@ public static class TweenManager
             // Update tween time
             tweens[i].currTime = Mathf.Min(tweens[i].currTime + Time.deltaTime, tweens[i].endTime);
 
-            // Determine tween 
+            // Determine shape of tween
             switch (tweens[i].shape)
             {
+                case TweenShape.EaseIn:
+                    lerpVal = Mathf.Pow(tweens[i].CurrNormTime, 2f);
+                    break;
+                case TweenShape.EaseOut:
+                    lerpVal = 1 - Mathf.Pow(1 - tweens[i].CurrNormTime, 2f);
+                    break;
+                case TweenShape.EaseInOut: // Lerps between EaseIn and EaseOut
+                    lerpVal = Mathf.Lerp(Mathf.Pow(tweens[i].CurrNormTime, 2f),
+                        1 - Mathf.Pow(1 - tweens[i].CurrNormTime, 2f), 
+                        tweens[i].CurrNormTime);
+                    break;
+
+                // Default to Linear if shape is not defined
+                default:
                 case TweenShape.Linear:
                     lerpVal = tweens[i].CurrNormTime;
                     break;
-                case TweenShape.EaseInOut: // Uses formula: y = cbrt(0.25 * (x - 0.5)) + 0.5
-                    //lerpVal = Mathf.Pow( 0.25f * (tweens[i].CurrNormTime - 0.5f), 1.0f / 3.0f) + 0.5f;
-                    lerpVal = tweens[i].CurrNormTime;
-                    Debug.Log("CurrNormTime: " + lerpVal);
-                    lerpVal -= 0.5f;
-                    lerpVal *= 0.25f;
-                    Debug.Log("Pre-pow val: " + lerpVal);
-                    lerpVal = Mathf.Pow(lerpVal, 1.0f / 3.0f);
-                    Debug.Log("Cubic root: " + lerpVal);
-                    lerpVal += 0.5f;
-                    Debug.Log("Final tween val: " + lerpVal);
-                    break;
             }
 
-            // Tween each separate type
+            // Tween by type
             switch (tweens[i].type)
             {
                 case TweenType.Translation:

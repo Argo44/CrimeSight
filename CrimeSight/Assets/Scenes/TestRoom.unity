@@ -1729,6 +1729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db632c9300bf7f4428f303b01ffc34f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMarkable: 0
 --- !u!114 &501312670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3068,8 +3069,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tweenOnInteract: 1
-  tweenShape: 0
-  activatedPosition: {x: 3.477, y: 1.277, z: -7.194}
+  tweenShape: 3
+  activatedPosition: {x: 3.671, y: 1.277, z: -7.194}
   activatedRotation: {x: 0, y: 270, z: 0}
   tweenTime: 1
 --- !u!1 &1026506198
