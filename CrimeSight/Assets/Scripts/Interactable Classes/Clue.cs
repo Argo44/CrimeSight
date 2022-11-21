@@ -150,11 +150,8 @@ public class Clue : Interactable
 
     public override void OnInteract()
     {
-        // Add clue to notebook
+        // Add clue to notebook and deactivate clue
         updateClueCount();
-
-        // Remove object(?)
-
 
         Debug.Log("Clue collected!");
     }

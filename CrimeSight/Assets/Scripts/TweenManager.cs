@@ -9,7 +9,8 @@ public enum TweenType
     Translation,
     Rotation,
     Scale,
-    MatColor
+    MatColor,
+    PrtSysColor
 }
 
 // Describes the rate of tweening from start to end
@@ -31,30 +32,34 @@ public static class TweenManager
     {
         CreateTween(target, type, endVal, duration, null);
     }
-    public static void CreateTween(Material target, TweenType type, Color endVal, float duration)
+    public static void CreateTween(Material target, Color endVal, float duration)
     {
-        CreateTween(target, type, endVal, duration, null);
+        CreateTween(target, endVal, duration, null);
+    }
+    public static void CreateTween(ParticleSystem target, Color endVal, float duration)
+    {
+        tweens.Add(new Tween(target, TweenType.PrtSysColor, endVal, duration, TweenShape.Linear, null));
     }
     public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration, UnityAction callback)
     {
         CreateTween(target, type, endVal, duration, TweenShape.Linear, callback);
     }
-    public static void CreateTween(Material target, TweenType type, Color endVal, float duration, UnityAction callback)
+    public static void CreateTween(Material target, Color endVal, float duration, UnityAction callback)
     {
-        CreateTween(target, type, endVal, duration, TweenShape.Linear, callback);
+        CreateTween(target, endVal, duration, TweenShape.Linear, callback);
     }
     public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration, TweenShape shape, UnityAction callback)
     {
         tweens.Add(new Tween(target, type, endVal, duration, shape, callback));
     }
-    public static void CreateTween(Material target, TweenType type, Color endVal, float duration, TweenShape shape, UnityAction callback)
+    public static void CreateTween(Material target, Color endVal, float duration, TweenShape shape, UnityAction callback)
     {
-        tweens.Add(new Tween(target, type, endVal, duration, shape, callback));
+        tweens.Add(new Tween(target, TweenType.MatColor, endVal, duration, shape, callback));
     }
 
     public static void UpdateTweens()
     {
-        float lerpVal = 0f;
+        float lerpVal;
 
         for (int i = 0; i < tweens.Count; i++)
         {
@@ -103,6 +108,11 @@ public static class TweenManager
                 case TweenType.MatColor:
                         tweens[i].material.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, lerpVal);
                     break;
+
+                case TweenType.PrtSysColor:
+                    tweens[i].pMMG.color = Color.Lerp(tweens[i].startColor, tweens[i].endColor, lerpVal);
+                    tweens[i].pMainMod.startColor = tweens[i].pMMG;
+                    break;
             }
 
             // Delete tween when finished
@@ -122,6 +132,10 @@ public static class TweenManager
         public TweenType type;
         public Transform transform;
         public Material material;
+        public ParticleSystem pSystem;
+        public ParticleSystem.MainModule pMainMod;
+        public ParticleSystem.MinMaxGradient pMMG;
+
         public Vector3 startV3;
         public Vector3 endV3;
         public Color startColor;
@@ -169,6 +183,20 @@ public static class TweenManager
         {
             material = target;
             startColor = material.color;
+            this.type = type;
+            endTime = duration;
+            this.shape = shape;
+            endColor = endVal;
+            onCallback = callback;
+        }
+
+        public Tween(ParticleSystem target, TweenType type, Color endVal, float duration, TweenShape shape, UnityAction callback)
+        {
+            pSystem = target;
+            pMainMod = pSystem.main;
+            pMMG = pMainMod.startColor;
+
+            startColor = pSystem.main.startColor.color;
             this.type = type;
             endTime = duration;
             this.shape = shape;
