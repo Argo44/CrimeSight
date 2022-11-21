@@ -64,6 +64,8 @@ namespace StarterAssets
 		public void OnPause(InputValue value)
 		{
 			uiScript.PauseGame();
+			move = Vector2.zero;
+			look = Vector2.zero;
 		}
 
 		public void OnNotebook(InputValue value)
