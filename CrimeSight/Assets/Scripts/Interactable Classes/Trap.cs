@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Trap : Interactable
 {
-    private bool isActive = true;
+    private bool isArmed = true;
+    private bool isMarked = false;
+    public UnityAction onDetonate;
 
     // Start is called before the first frame update
     void Start()
@@ -24,32 +27,51 @@ public class Trap : Interactable
     // i.e. when player walks into trap
     private void OnTriggerEnter(Collider other)
     {
-        if (isActive)
-        {
-            OnDetonate();
-        }
+        if (isArmed)
+            Detonate();
     }
 
     public override void OnInteract()
     {
-        if (!isActive) return;
+        if (!isArmed) return;
 
         // Start disarm QTE
+
         Debug.Log("Trap disarmed!");
-        isActive = false;
+        isArmed = false;
+    }
+
+    // Only select trap if it is marked with Sight
+    public override void OnSelect()
+    {
+        if (isMarked)
+            base.OnSelect();
+    }
+
+    public override void OnDeselect()
+    {
+        if (isMarked)
+            base.OnDeselect();
+    }
+
+    // Allows player to select and disarm trap
+    public void Mark()
+    {
+        isMarked = true;
     }
 
     /// <summary>
     /// Deals damage to player and disables this trap
     /// </summary>
-    public void OnDetonate()
+    public void Detonate()
     {
-        if (!isActive) return;
+        if (!isArmed) return;
 
         Debug.Log("A trap went off!");
-        isActive = false;
+        isArmed = false;
+        // Deal damage to player
 
-        // Add some visual effect
-        // Remove from scene
+        // Remove trap from scene
+        onDetonate?.Invoke();
     }
 }

@@ -50,10 +50,6 @@ public class Interactable : MonoBehaviour
 
     public virtual void OnInteract()
     {
-        // We haven't really defined a default interaction...
-        // This can be overriden by subclasses
-        // Maybe we just have classes for each type of interactable? (doors, keys, clues, traps)
-        // Any other types of interactables?
         Debug.Log(gameObject.name + " activated!");
     }
 }

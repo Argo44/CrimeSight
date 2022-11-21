@@ -49,10 +49,11 @@ public class HiddenObject : MonoBehaviour
         // Only fade if visible to camera - STILL FADES THROUGH WALLS
         //if (!renderer.isVisible) return;
 
-        // Make trap permanently visible once seen
+        // Mark trap, making it permanently visible and disarmable
         if (isTrap)
         {
             TweenManager.CreateTween(pSystem, visColor, 1f);
+            GetComponent<Trap>().Mark();
             return;
         }
 
