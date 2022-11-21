@@ -16,7 +16,11 @@ public class TrapManager : MonoBehaviour
 
         // Store trap locations
         foreach (Transform t in GetComponentsInChildren<Transform>())
+        {
+            // Skip TrapManager's transform
+            if (t == transform) continue;
             trapLocations.Add(t.position);
+        }
 
         // Randomly assign traps to locations
         List<int> indices = new List<int>();
@@ -33,7 +37,7 @@ public class TrapManager : MonoBehaviour
             newTrap.onDetonate = () =>
             {
                 // ADD VISUAL EFFECT HERE
-
+                // Deal damage to player
                 newTrap.gameObject.SetActive(false);
             };
             indices.RemoveAt(randInt);

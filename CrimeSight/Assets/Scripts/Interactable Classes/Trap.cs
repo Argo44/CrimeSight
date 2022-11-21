@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(HiddenObject))]
 public class Trap : Interactable
 {
     private bool isArmed = true;
@@ -12,9 +13,7 @@ public class Trap : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        //Sets the crosshair and interact text objects so they can be updated
-        crosshair = GameObject.Find("Crosshair");
-        interactTextObject = GameObject.Find("Interact Text");
+        
     }
 
     // Update is called once per frame
@@ -33,12 +32,14 @@ public class Trap : Interactable
 
     public override void OnInteract()
     {
-        if (!isArmed) return;
-
+        if (!isArmed || !isMarked) return;
         // Start disarm QTE
 
         Debug.Log("Trap disarmed!");
         isArmed = false;
+
+        // Visualize deactivation of trap
+        TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.cyan, 0.3f);
     }
 
     // Only select trap if it is marked with Sight
@@ -69,9 +70,8 @@ public class Trap : Interactable
 
         Debug.Log("A trap went off!");
         isArmed = false;
-        // Deal damage to player
 
-        // Remove trap from scene
+        // Deal damage to play and remove trap from scene
         onDetonate?.Invoke();
     }
 }

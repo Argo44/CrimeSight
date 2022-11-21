@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
+                    "name": "UseSight",
                     "type": "Button",
                     "id": "8c4abdf8-4099-493a-aa1a-129acec7c3df",
                     "expectedControlType": "Button",
@@ -63,6 +63,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "134ee3e5-9640-42c4-9f6b-c9390437b3fc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Flashlight",
+                    "type": "Button",
+                    "id": "524ecda2-b0c2-46f7-996d-ec12c6baf4d9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -209,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Jump",
+                    "action": "UseSight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -220,7 +229,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Jump",
+                    "action": "UseSight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -276,6 +285,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e38271d0-7e40-4504-8368-2ee57415e005",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Flashlight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

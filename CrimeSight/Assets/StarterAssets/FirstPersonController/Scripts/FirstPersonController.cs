@@ -60,9 +60,6 @@ namespace StarterAssets
 		// timeout deltatime
 		private float _fallTimeoutDelta;
 
-		// GameManager Script
-		public GameManager gameManagerScript;
-
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		private PlayerInput _playerInput;
@@ -74,6 +71,10 @@ namespace StarterAssets
 		// Sight Ability Data
 		private const float SIGHT_COOLDOWN = 10f;
 		private float sightCooldownTimer = 0f;
+
+		// Flashlight Data
+		private Light flashlight;
+
 
 		private const float _threshold = 0.01f;
 
@@ -107,6 +108,8 @@ namespace StarterAssets
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
+			// Get reference to Light object
+			flashlight = GetComponentInChildren<Light>();
 
 			// reset our timeouts on start
 			_fallTimeoutDelta = FallTimeout;
@@ -114,7 +117,8 @@ namespace StarterAssets
 
 		private void Update()
         {
-			// Sight ability calculations
+			// Ability updates and calculations
+			FlashlightUpdate();
 			SightUpdate();
 
 			// Movement calculations
@@ -135,7 +139,7 @@ namespace StarterAssets
 				sightCooldownTimer -= Time.deltaTime;
 
 			// If input activated, check cooldown
-			if (_input.jump)
+			if (_input.sight)
             {
 				// If Sight is ready, activate
 				if (sightCooldownTimer <= 0)
@@ -147,9 +151,14 @@ namespace StarterAssets
 					Debug.Log("Sight on cooldown for " + sightCooldownTimer + " seconds");
 
 				// Deactivate input
-				_input.jump = false;
+				_input.sight = false;
             }
 		}
+
+		private void FlashlightUpdate()
+        {
+			flashlight.gameObject.SetActive(_input.flashlight);
+        }
 
 		private void GroundedCheck()
 		{
@@ -174,6 +183,7 @@ namespace StarterAssets
 
 				// Update Cinemachine camera target pitch
 				CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+				flashlight.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 
 				// rotate the player left and right
 				transform.Rotate(Vector3.up * _rotationVelocity);
@@ -248,7 +258,7 @@ namespace StarterAssets
 				}
 
 				// if we are not grounded, do not jump
-				_input.jump = false;
+				_input.sight = false;
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)

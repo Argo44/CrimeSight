@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
+using TMPro;
 
 public enum GameState
 {
@@ -18,8 +20,12 @@ public class GameManager : MonoBehaviour
 
     // Fields
     static private GameState state;
+
+    // Selection Data
     static private Interactable selectedObject;
     private const float MAX_VIEW_DIST = 3.5f;
+    private Image crosshair;
+    private TextMeshProUGUI interactText;
 
     // Sight Data
     static public event SightEventHandler OnSight;
@@ -44,13 +50,17 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Game;
         sightCamEffect = Camera.main.GetComponent<PostProcessVolume>();
+
+        // Get selection UI references
+        crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
+        interactText = GameObject.Find("Interact Text").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // Select object centered in front of camera
-        RaySelect();
+        UpdateSelection();
 
         // Update sight post-process effect
         SightPostProcessing();
@@ -62,50 +72,68 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Uses a ray from the middle of the camera to select/deselect any interactable objects
     /// </summary>
-    private void RaySelect()
+    private void UpdateSelection()
     {
-        RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Transform hitObj = hit.transform;
+            Interactable hitInteractable = hit.transform.GetComponent<Interactable>();
 
             if (hit.distance > MAX_VIEW_DIST) // If hit is too far, deselect object
             {
-                if (selectedObject != null)
-                {
-                    selectedObject.OnDeselect();
-                    selectedObject = null;
-                }
+                Deselect();
             }
-            else if (hitObj.GetComponent<Interactable>() != null) // If Interactable object is hit, check for selection
+            else if (hitInteractable != null) // If Interactable object is hit, check for selection
             {
-                // If new object was hit, deselect current object
-                if (selectedObject != null && selectedObject.transform != hitObj)
-                {
-                    selectedObject.OnDeselect();
-                    selectedObject = null;
-                }
-
-                // Select hit object if no object is selected
-                if (selectedObject == null)
-                {
-                    selectedObject = hitObj.GetComponent<Interactable>();
-                    selectedObject.OnSelect();
-                }
+                // If new object was hit, select it
+                SelectObject(hitInteractable);
             }
             else if (selectedObject != null) // If no Interactable hit, deselect object
-            {
-                selectedObject.OnDeselect();
-                selectedObject = null;
-            }
+                Deselect();
         }
         else if (selectedObject != null) // If no hit, deselect object
+            Deselect();
+    }
+
+    private void SelectObject(Interactable obj)
+    {
+        // Deselect any current object
+        if (selectedObject == obj)
+            return;
+        else 
+            Deselect();
+
+        // Set new selected object and activate
+        selectedObject = obj;
+        obj.OnSelect();
+
+        // Update selection UI
+        crosshair.color = Color.red;
+
+        // Set interaction text by type
+        if (obj is Clue)
+            interactText.text = "Collect " + obj.name;
+        else if (obj is Trap)
+            interactText.text = "Disarm " + obj.name;
+        else
+            interactText.text = "Use " + obj.name;
+
+        interactText.text += " (E)";
+        interactText.gameObject.SetActive(true);
+    }
+
+    private void Deselect()
+    {
+        if (selectedObject != null)
         {
             selectedObject.OnDeselect();
             selectedObject = null;
         }
+
+        // Update selection UI
+        crosshair.color = Color.white;
+        interactText.gameObject.SetActive(false);
     }
 
     private void SightPostProcessing()
@@ -125,15 +153,22 @@ public class GameManager : MonoBehaviour
         OnSight?.Invoke();
     }
 
-
+    // Determines if an object is visible to main camera (in view and unobstructed)
+    // NOTE: uses position, so technically edge parts may be visible but be marked as not. Maybe raycast each corner?
     public static bool IsObjectVisible(GameObject obj)
     {
+        // Frustrum planes act like a 'box' of what the camera can see
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
         Vector3 point = obj.transform.position;
 
+        // If object is behind any plane, it is not in view
         foreach (Plane p in planes)
-            if (p.GetDistanceToPoint(point) > 0) return false;
+            if (p.GetDistanceToPoint(point) < 0) return false;
+        
+        // If object is in view, use raycast to see if it is unobstructed
+        Ray ray = Camera.main.ScreenPointToRay(Camera.main.WorldToScreenPoint(obj.transform.position));
 
-        return true;
+        // If object hit by raycast matches param object, return true
+        return (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.gameObject == obj);
     }
 }

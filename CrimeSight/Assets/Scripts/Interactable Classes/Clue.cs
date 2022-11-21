@@ -134,9 +134,7 @@ public class Clue : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        //Sets the crosshair and interact text objects so they can be updated
-        crosshair = GameObject.Find("Crosshair");
-        interactTextObject = GameObject.Find("Interact Text");
+        
     }
 
     // Update is called once per frame
@@ -145,15 +143,10 @@ public class Clue : Interactable
         
     }
 
-    // move Initialize to Clue component
-    // Create callback method in InteractableManager
-    // When clue.OnInteract is called, invoke callback
-    // Callback alerts UI of new clue
-
     public override void OnInteract()
     {
         // Add clue to notebook and deactivate clue
-        updateClueCount();
+        updateClueCount?.Invoke();
 
         Debug.Log("Clue collected!");
     }

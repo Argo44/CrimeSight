@@ -10,8 +10,9 @@ namespace StarterAssets
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
-		public bool jump;
+		public bool sight;
 		public bool sprint;
+		public bool flashlight = false;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -22,8 +23,6 @@ namespace StarterAssets
 
 		//GameUI Script
 		public GameUI uiScript;
-		//GameManager Script
-		public GameManager gameManagerScript;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
@@ -45,13 +44,21 @@ namespace StarterAssets
 			}
 		}
 
-		public void OnJump(InputValue value)
+		public void OnUseSight(InputValue value)
 		{
 			if (GameManager.State == GameState.Game)
 			{
-				JumpInput(value.isPressed);
+				SightInput(value.isPressed);
 			}
 		}
+
+		public void OnFlashlight(InputValue value)
+        {
+			if (GameManager.State == GameState.Game)
+            {
+				flashlight = !flashlight;
+            }
+        }
 
 		public void OnSprint(InputValue value)
 		{
@@ -91,9 +98,9 @@ namespace StarterAssets
 			look = newLookDirection;
 		}
 
-		public void JumpInput(bool newJumpState)
+		public void SightInput(bool newJumpState)
 		{
-			jump = newJumpState;
+			sight = newJumpState;
 		}
 
 		public void SprintInput(bool newSprintState)

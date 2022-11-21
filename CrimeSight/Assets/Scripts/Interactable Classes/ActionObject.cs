@@ -23,10 +23,6 @@ public class ActionObject : Interactable
         // Store current transform data
         inactivePos = transform.position;
         inactiveRot = transform.rotation.eulerAngles;
-
-        //Sets the crosshair and interact text objects so they can be updated
-        crosshair = GameObject.Find("Crosshair");
-        interactTextObject = GameObject.Find("Interact Text");
     }
 
     private void Update()

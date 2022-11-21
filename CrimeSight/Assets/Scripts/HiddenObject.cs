@@ -47,7 +47,7 @@ public class HiddenObject : MonoBehaviour
     private void SightFade()
     {
         // Only fade if visible to camera - STILL FADES THROUGH WALLS
-        //if (!renderer.isVisible) return;
+        if (!GameManager.IsObjectVisible(gameObject)) return;
 
         // Mark trap, making it permanently visible and disarmable
         if (isTrap)
