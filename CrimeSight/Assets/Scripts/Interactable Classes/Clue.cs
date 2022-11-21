@@ -134,7 +134,9 @@ public class Clue : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Sets the crosshair and interact text objects so they can be updated
+        crosshair = GameObject.Find("Crosshair");
+        interactTextObject = GameObject.Find("Interact Text");
     }
 
     // Update is called once per frame
