@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Traps are always Hidden Objects
 [RequireComponent(typeof(HiddenObject))]
 public class Trap : Interactable
 {
+    // Fields
+    private HiddenObject hiddenObj;
     private bool isArmed = true;
-    private bool isMarked = false;
     public UnityAction onDetonate;
+
+    // Properties
+    public bool IsSelectable
+    {
+        get { return hiddenObj.IsMarked && isArmed; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        hiddenObj = GetComponent<HiddenObject>();
     }
 
     // Update is called once per frame
@@ -32,33 +40,28 @@ public class Trap : Interactable
 
     public override void OnInteract()
     {
-        if (!isArmed || !isMarked) return;
+        if (!IsSelectable) return;
+        
         // Start disarm QTE
 
         Debug.Log("Trap disarmed!");
         isArmed = false;
 
         // Visualize deactivation of trap
-        TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.cyan, 0.3f);
+        TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f);
     }
 
     // Only select trap if it is marked with Sight
     public override void OnSelect()
     {
-        if (isMarked)
+        if (hiddenObj.IsMarked)
             base.OnSelect();
     }
 
     public override void OnDeselect()
     {
-        if (isMarked)
+        if (hiddenObj.IsMarked)
             base.OnDeselect();
-    }
-
-    // Allows player to select and disarm trap
-    public void Mark()
-    {
-        isMarked = true;
     }
 
     /// <summary>

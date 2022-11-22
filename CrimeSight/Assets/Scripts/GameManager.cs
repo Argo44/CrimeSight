@@ -100,27 +100,42 @@ public class GameManager : MonoBehaviour
     {
         // Deselect any current object
         if (selectedObject == obj)
-            return;
+        {
+            // Deselect a selected trap if it becomes unselectable
+            if (obj is Trap trap && !trap.IsSelectable)
+                Deselect();
+            else
+                return;
+        }
         else 
             Deselect();
 
-        // Set new selected object and activate
+        // Do not select object if it is hidden
+        if (obj.GetComponent<HiddenObject>() != null && !obj.GetComponent<HiddenObject>().IsMarked) 
+            return;
+
+        // Select object
         selectedObject = obj;
         obj.OnSelect();
 
         // Update selection UI
-        crosshair.color = Color.red;
-
         // Set interaction text by type
-        if (obj is Clue)
+        if (obj is Trap t)
+        {
+            if (t.IsSelectable)
+                interactText.text = "Disarm " + obj.name;
+            else // Do not show UI for unmarked or disarmed traps
+                return;
+
+        }
+        else if (obj is Clue)
             interactText.text = "Collect " + obj.name;
-        else if (obj is Trap)
-            interactText.text = "Disarm " + obj.name;
         else
             interactText.text = "Use " + obj.name;
 
         interactText.text += " (E)";
         interactText.gameObject.SetActive(true);
+        crosshair.color = Color.red;
     }
 
     private void Deselect()

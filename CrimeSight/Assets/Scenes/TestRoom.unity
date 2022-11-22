@@ -1766,20 +1766,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMarkable: 0
---- !u!114 &501312670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501312662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d5856b1843a0924ca310ae1d615cc79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crosshair: {fileID: 0}
-  interactTextObject: {fileID: 0}
 --- !u!64 &501312674
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3335,8 +3321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57532aaace823e34993b580fdda8c8fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshair: {fileID: 0}
-  interactTextObject: {fileID: 0}
   tweenOnInteract: 1
   tweenShape: 3
   activatedPosition: {x: 3.671, y: 1.277, z: -7.194}
