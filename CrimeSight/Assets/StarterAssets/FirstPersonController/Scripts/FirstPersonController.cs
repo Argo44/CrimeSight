@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.Rendering.PostProcessing;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -75,6 +77,11 @@ namespace StarterAssets
 		// Flashlight Data
 		private Light flashlight;
 
+		//Reference to Sight UI Icon
+		public GameObject sightIcon;
+		public GameObject sightCooldownIcon;
+		public GameObject cooldownTimerText;
+
 
 		private const float _threshold = 0.01f;
 
@@ -134,9 +141,40 @@ namespace StarterAssets
 
 		private void SightUpdate()
         {
+			Color cooldownColor = sightCooldownIcon.GetComponent<Image>().color;
+			TextMeshProUGUI timerText = cooldownTimerText.GetComponent<TextMeshProUGUI>();
+
 			// Update cooldown
 			if (sightCooldownTimer > 0)
+            {
 				sightCooldownTimer -= Time.deltaTime;
+
+				//Update onscreen cooldown timer
+				timerText.text = sightCooldownTimer.ToString("F2");
+
+				if (timerText.text == "0.00")
+                {
+					timerText.text = " ";
+                }
+
+				//Slowly change icon color from red to white
+				cooldownColor.a -= Time.deltaTime / 10;
+				sightCooldownIcon.GetComponent<Image>().color = cooldownColor;
+
+				//Play animation when Sight is ready
+				if (sightCooldownTimer <= 0)
+				{
+					if (sightIcon != null)
+					{
+						Animator animator = sightIcon.GetComponent<Animator>();
+						if (animator != null)
+						{
+							bool isOpen = animator.GetBool("show");
+							animator.SetBool("show", true);
+						}
+					}
+				}
+			}
 
 			// If input activated, check cooldown
 			if (_input.sight)
@@ -146,6 +184,10 @@ namespace StarterAssets
 				{
 					GameManager.ActivateSight();
 					sightCooldownTimer = SIGHT_COOLDOWN;
+
+					//Change icon back to red
+					cooldownColor.a = 1f;
+					sightCooldownIcon.GetComponent<Image>().color = cooldownColor;
 				}
 				else // Add player feedback for invalid input?
 					Debug.Log("Sight on cooldown for " + sightCooldownTimer + " seconds");

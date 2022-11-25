@@ -15,6 +15,7 @@ public class GameUI : MonoBehaviour
     public GameObject notification;
     public GameObject notifcationNumber;
     public GameObject crosshair;
+    public GameObject sightUI;
 
     public int numOfNewClues = 0;
     private bool notebookIsClosed = true;
@@ -48,11 +49,12 @@ public class GameUI : MonoBehaviour
         //Resumes game
         if (pauseScreen.activeInHierarchy)
         {
-            //Disables pause screen UI and enables notebook
+            //Disables pause screen UI and enables in-game UI
             pauseScreen.SetActive(false);
             notification.SetActive(true);
             notebook.SetActive(true);
             crosshair.SetActive(true);
+            sightUI.SetActive(true);
 
             //Sets timeScale back to 1 so game can resume
             Time.timeScale = 1;
@@ -74,6 +76,7 @@ public class GameUI : MonoBehaviour
             notebook.SetActive(false);
             notification.SetActive(false);
             crosshair.SetActive(false);
+            sightUI.SetActive(false);
 
             //Sets time scale to 0 so game pauses
             Time.timeScale = 0f;
@@ -98,6 +101,7 @@ public class GameUI : MonoBehaviour
         {
             numOfNewClues = 0;
             crosshair.SetActive(!notebookIsClosed);
+            sightUI.SetActive(!notebookIsClosed);
         }
        
         if (notebook != null)
