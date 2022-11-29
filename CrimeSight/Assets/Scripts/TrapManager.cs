@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class TrapManager : MonoBehaviour
 {
@@ -8,11 +10,20 @@ public class TrapManager : MonoBehaviour
     public int trapCount = 0;
     public GameObject trapPrefab;
     private List<Vector3> trapLocations;
+    public GameObject canvas;
+    public TMP_Text[] GTtexts;
+    public TMP_Text timerText;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         trapLocations = new List<Vector3>();
+        
+       
+        // Then start the Quick Time Event
+
 
         // Store trap locations
         foreach (Transform t in GetComponentsInChildren<Transform>())
@@ -42,11 +53,21 @@ public class TrapManager : MonoBehaviour
             };
             indices.RemoveAt(randInt);
         }
+
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+  
     }
+
+    public void ToggleQuickTimeCanvas()
+    {
+        canvas.SetActive(!canvas.active);
+    }
+    
+
+   
 }

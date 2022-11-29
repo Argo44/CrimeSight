@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using TMPro;
 
 // Traps are always Hidden Objects
 [RequireComponent(typeof(HiddenObject))]
@@ -11,6 +13,9 @@ public class Trap : Interactable
     private HiddenObject hiddenObj;
     private bool isArmed = true;
     public UnityAction onDetonate;
+    private float timer;
+    private bool disarming = false;
+    private TrapManager trapManager; 
 
     // Properties
     public bool IsSelectable
@@ -22,12 +27,24 @@ public class Trap : Interactable
     void Start()
     {
         hiddenObj = GetComponent<HiddenObject>();
+
+        trapManager = GameObject.Find("Trap Manager").GetComponent<TrapManager>();
+        //timerText = GameObject.Find("QuickTime").transform.GetChild(0).GetChild(6).gameObject.GetComponent<TMP_Text>();
+
+        // Set the texts 
+        //GTtexts[0].text = transform.GetChild("GTE1");
+
+        // Set the text for the timer
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (disarming)
+        {
+            QuickTime();
+        }
+        
     }
 
     // Called when a Collider intersects with this object's Collider
@@ -41,8 +58,11 @@ public class Trap : Interactable
     public override void OnInteract()
     {
         if (!IsSelectable) return;
-        
+
         // Start disarm QTE
+        trapManager.ToggleQuickTimeCanvas();
+        disarming = true;
+        Disarm();
 
         Debug.Log("Trap disarmed!");
         isArmed = false;
@@ -76,5 +96,60 @@ public class Trap : Interactable
 
         // Deal damage to play and remove trap from scene
         onDetonate?.Invoke();
+    }
+
+    // Sets all the starter varible for the Quick Time events
+    // Resets the timer and sets the keys
+    void Disarm()
+    {
+        int rand = Random.Range(0, 6);
+
+        // Set all the texts to different keys
+        for (int i = 0; i < 6; i++)
+        {
+            // Pick a random key to show
+            switch (rand)
+            {
+                case 0:
+                    trapManager.GTtexts[i].text = "G";
+                    break;
+
+                case 1:
+                    trapManager.GTtexts[i].text = "H";
+                    break;
+
+                case 2:
+                    trapManager.GTtexts[i].text = "J";
+                    break;
+
+                case 3:
+                    trapManager.GTtexts[i].text = "Y";
+                    break;
+
+                case 4:
+                    trapManager.GTtexts[i].text = "T";
+                    break;
+
+                case 5:
+                    trapManager.GTtexts[i].text = "R";
+                    break;
+            }
+        }
+
+        timer = 10.0f;
+    }
+
+    // Updates the QTEs every second 
+    void QuickTime()
+    {
+        timer -= Time.deltaTime;
+        trapManager.timerText.text = timer.ToString("F2") + "s";
+
+        
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+
+        }
     }
 }
