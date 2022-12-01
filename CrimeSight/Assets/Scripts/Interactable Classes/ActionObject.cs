@@ -5,6 +5,7 @@ using UnityEngine;
 // Class for environmental objects that change when interacted with
 // Examples: Doors, cabinets, moving objects
 
+[RequireComponent(typeof(AudioSource))]
 public class ActionObject : Interactable
 {
     // Fields
@@ -18,8 +19,15 @@ public class ActionObject : Interactable
     private float tweenTimer = 0;
     private bool isActivated = false;
 
+    // Audio Data
+    private AudioSource audioSrc;
+    [SerializeField] private AudioClip activeSFX;
+    [SerializeField] private AudioClip inactiveSFX;
+
     private void Start()
     {
+        audioSrc = GetComponent<AudioSource>();
+
         // Store current transform data
         inactivePos = transform.position;
         inactiveRot = transform.rotation.eulerAngles;
@@ -45,6 +53,9 @@ public class ActionObject : Interactable
                 TweenManager.CreateTween(transform, TweenType.Translation, activatedPosition, tweenTime, tweenShape, null);
             if (activatedRotation != inactiveRot)
                 TweenManager.CreateTween(transform, TweenType.Rotation, activatedRotation, tweenTime, tweenShape, null);
+
+            if (activeSFX != null)
+                audioSrc.PlayOneShot(activeSFX);
         }
         else
         {
@@ -53,6 +64,9 @@ public class ActionObject : Interactable
                 TweenManager.CreateTween(transform, TweenType.Translation, inactivePos, tweenTime, tweenShape, null);
             if (activatedRotation != inactiveRot)
                 TweenManager.CreateTween(transform, TweenType.Rotation, inactiveRot, tweenTime, tweenShape, null);
+
+            if (inactiveSFX != null)
+                audioSrc.PlayOneShot(inactiveSFX);
         }
 
         // Set tween timer and toggle active state

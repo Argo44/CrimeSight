@@ -70,11 +70,10 @@ namespace StarterAssets
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 
-		// Sight Ability Data
+		// Ability Data
+		private float health = 100f;
 		private const float SIGHT_COOLDOWN = 10f;
 		private float sightCooldownTimer = 0f;
-
-		// Flashlight Data
 		private Light flashlight;
 
 		//Reference to Sight UI Icon
@@ -200,6 +199,14 @@ namespace StarterAssets
 		private void FlashlightUpdate()
         {
 			flashlight.gameObject.SetActive(_input.flashlight);
+        }
+
+		public void TakeDamage(float amount)
+        {
+			health -= amount;
+
+			//if (health <= 0)
+				// Lose condition
         }
 
 		private void GroundedCheck()

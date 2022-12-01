@@ -24,6 +24,7 @@ public enum ClueType
     Red,
 }
 
+[RequireComponent(typeof(AudioSource))]
 public class Clue : Interactable
 {
     // Fields
@@ -32,6 +33,11 @@ public class Clue : Interactable
     private string clueName;
     private string info;
     private UnityAction updateClueCount;
+
+    // Audio Data
+    private AudioSource audioSrc;
+    [SerializeField]
+    private AudioClip clueCollectSFX;
 
     // Loads clue info for this object
     public void Initialize(ClueType _type, UnityAction clueCollectUpdateCallback)
@@ -103,6 +109,8 @@ public class Clue : Interactable
             }
 
             updateClueCount = clueCollectUpdateCallback;
+
+            audioSrc = GetComponent<AudioSource>();
         }
     }
 
@@ -147,6 +155,9 @@ public class Clue : Interactable
     {
         // Add clue to notebook and deactivate clue
         updateClueCount?.Invoke();
+
+        if (clueCollectSFX != null)
+            audioSrc.PlayOneShot(clueCollectSFX);
 
         Debug.Log("Clue collected!");
     }

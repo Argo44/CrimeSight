@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     // Fields
     static private GameState state;
+    [SerializeField] private StarterAssets.FirstPersonController playerController;
+    static private StarterAssets.FirstPersonController _playerController;
 
     // Selection Data
     static private Interactable selectedObject;
@@ -43,12 +45,16 @@ public class GameManager : MonoBehaviour
         get { return selectedObject; }
         // GameManager is in charge of what the selected object is, so no set accessor
     }
-
+    static public StarterAssets.FirstPersonController Player
+    {
+        get { return _playerController; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         state = GameState.Game;
+        _playerController = playerController;
         sightCamEffect = Camera.main.GetComponent<PostProcessVolume>();
 
         // Get selection UI references

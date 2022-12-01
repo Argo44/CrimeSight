@@ -7,6 +7,7 @@ using TMPro;
 
 // Traps are always Hidden Objects
 [RequireComponent(typeof(HiddenObject))]
+[RequireComponent(typeof(AudioSource))]
 public class Trap : Interactable
 {
     // Fields
@@ -15,7 +16,13 @@ public class Trap : Interactable
     public UnityAction onDetonate;
     private float timer;
     private bool disarming = false;
-    private TrapManager trapManager; 
+    private TrapManager trapManager;
+
+    // Audio Data
+    private AudioSource audioSrc;
+    [SerializeField] private AudioClip interactSFX;
+    [SerializeField] private AudioClip disarmSFX;
+    [SerializeField] private AudioClip detonateSFX;
 
     // Properties
     public bool IsSelectable
@@ -27,6 +34,7 @@ public class Trap : Interactable
     void Start()
     {
         hiddenObj = GetComponent<HiddenObject>();
+        audioSrc = GetComponent<AudioSource>();
 
         trapManager = GameObject.Find("Trap Manager").GetComponent<TrapManager>();
         //timerText = GameObject.Find("QuickTime").transform.GetChild(0).GetChild(6).gameObject.GetComponent<TMP_Text>();
@@ -64,6 +72,11 @@ public class Trap : Interactable
         disarming = true;
         Disarm();
 
+        // Play SFX
+        if (interactSFX != null)
+            audioSrc.PlayOneShot(interactSFX);
+
+        // MOVE TO END OF QTE ONCE IMPLEMENTED
         Debug.Log("Trap disarmed!");
         isArmed = false;
 
@@ -96,6 +109,9 @@ public class Trap : Interactable
 
         // Deal damage to play and remove trap from scene
         onDetonate?.Invoke();
+
+        if (detonateSFX != null)
+            audioSrc.PlayOneShot(detonateSFX);
     }
 
     // Sets all the starter varible for the Quick Time events

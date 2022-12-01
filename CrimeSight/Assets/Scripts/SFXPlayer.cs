@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SFXPlayer : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public enum SFX
+{ 
+    ClueCollect,
+    SightActivation
+}
 
-    // Update is called once per frame
-    void Update()
+public static class SFXPlayer
+{
+    // Fields
+    private static bool initialized = false;
+    private static AudioSource source;
+
+    public static void Initialize()
     {
-        
+        if (initialized) return;
+
+        source = Camera.main.GetComponent<AudioSource>();
+        initialized = true;
     }
 }

@@ -8,7 +8,7 @@ public class TrapManager : MonoBehaviour
 {
     // Fields
     public int trapCount = 0;
-    public GameObject trapPrefab;
+    public List<GameObject> trapPrefabs;
     private List<Vector3> trapLocations;
     public GameObject canvas;
     public TMP_Text[] GTtexts;
@@ -43,12 +43,17 @@ public class TrapManager : MonoBehaviour
         {
             // Initialize new trap in unused location
             int randInt = Random.Range(0, indices.Count);
-            Trap newTrap = Instantiate(trapPrefab, trapLocations[indices[randInt]], trapPrefab.transform.rotation, transform).GetComponent<Trap>();
+            GameObject prefab = trapPrefabs[Random.Range(0, trapPrefabs.Count)];
+            Trap newTrap = Instantiate(prefab, trapLocations[indices[randInt]], prefab.transform.rotation, transform).GetComponent<Trap>();
             newTrap.gameObject.name = "Trap";
             newTrap.onDetonate = () =>
             {
                 // ADD VISUAL EFFECT HERE
+                
                 // Deal damage to player
+                GameManager.Player.TakeDamage(25f);
+
+                // Deactivate trap
                 newTrap.gameObject.SetActive(false);
             };
             indices.RemoveAt(randInt);
