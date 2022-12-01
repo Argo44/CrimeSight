@@ -75,13 +75,6 @@ public class Trap : Interactable
         // Play SFX
         if (interactSFX != null)
             audioSrc.PlayOneShot(interactSFX);
-
-        // MOVE TO END OF QTE ONCE IMPLEMENTED
-        Debug.Log("Trap disarmed!");
-        isArmed = false;
-
-        // Visualize deactivation of trap
-        TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f);
     }
 
     // Only select trap if it is marked with Sight
@@ -118,11 +111,13 @@ public class Trap : Interactable
     // Resets the timer and sets the keys
     void Disarm()
     {
-        int rand = Random.Range(0, 6);
+        int rand;
 
         // Set all the texts to different keys
         for (int i = 0; i < 6; i++)
         {
+            rand = Random.Range(0, 6);
+
             // Pick a random key to show
             switch (rand)
             {
@@ -152,7 +147,7 @@ public class Trap : Interactable
             }
         }
 
-        timer = 10.0f;
+        timer = 5.0f;
     }
 
     // Updates the QTEs every second 
@@ -166,6 +161,29 @@ public class Trap : Interactable
         if (Input.GetKeyDown(KeyCode.G))
         {
 
+        }
+
+
+        // if (key list is empty)
+        //{
+        //    Debug.Log("Trap disarmed!");
+        //    isArmed = false;
+        //    
+        //    // Visualize deactivation of trap
+        //    TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f, () => {
+        //        Color semigreen = Color.green;
+        //        semigreen.a = 0.05f;
+        //        TweenManager.CreateTween(GetComponent<ParticleSystem>(), semigreen, 0.3f);
+        //    });
+        //    break;
+        //}
+
+        // If time expires, detonate trap
+        if (timer <= 0)
+        {
+            trapManager.ToggleQuickTimeCanvas();
+            disarming = false;
+            Detonate();
         }
     }
 }

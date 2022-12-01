@@ -104,14 +104,24 @@ public class GameManager : MonoBehaviour
 
     private void SelectObject(Interactable obj)
     {
+        // Cast obj as Interactable types to determine select conditions
+        Trap trap = null;
+        if (obj is Trap) trap = (Trap)obj;
+        Clue clue = null;
+        if (obj is Clue) clue = (Clue)obj;
+
+        // Traps that arent marked or armed + collected clues are not selectable
+        bool nonselectable = (trap != null && !trap.IsSelectable) || (clue != null && clue.collected);
+
         // Deselect any current object
         if (selectedObject == obj)
         {
-            // Deselect a selected trap if it becomes unselectable
-            if (obj is Trap trap && !trap.IsSelectable)
+            // Deselect current obj if it becomes unselectable
+            if (nonselectable)
                 Deselect();
-            else
-                return;
+
+            // No need to reselect current object
+            return;
         }
         else 
             Deselect();
@@ -119,6 +129,9 @@ public class GameManager : MonoBehaviour
         // Do not select object if it is hidden
         if (obj.GetComponent<HiddenObject>() != null && !obj.GetComponent<HiddenObject>().IsMarked) 
             return;
+
+        // Do not select unselectable objects
+        if (nonselectable) return;
 
         // Select object
         selectedObject = obj;
@@ -134,8 +147,13 @@ public class GameManager : MonoBehaviour
                 return;
 
         }
-        else if (obj is Clue)
-            interactText.text = "Collect " + obj.name;
+        else if (obj is Clue c)
+        {
+            if (!c.collected)
+                interactText.text = "Collect " + obj.name;
+            else // Do not show UI for collected clues
+                return;
+        }
         else
             interactText.text = "Use " + obj.name;
 

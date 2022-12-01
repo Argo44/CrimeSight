@@ -40,6 +40,10 @@ public static class TweenManager
     {
         tweens.Add(new Tween(target, TweenType.PrtSysColor, endVal, duration, TweenShape.Linear, null));
     }
+    public static void CreateTween(ParticleSystem target, Color endVal, float duration, UnityAction callback)
+    {
+        tweens.Add(new Tween(target, TweenType.PrtSysColor, endVal, duration, TweenShape.Linear, callback));
+    }
     public static void CreateTween(Transform target, TweenType type, Vector3 endVal, float duration, UnityAction callback)
     {
         CreateTween(target, type, endVal, duration, TweenShape.Linear, callback);

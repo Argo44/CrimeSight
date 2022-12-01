@@ -32,6 +32,7 @@ public class Clue : Interactable
     public ClueType type;
     private string clueName;
     private string info;
+    public bool collected = false;
     private UnityAction updateClueCount;
 
     // Audio Data
@@ -151,8 +152,17 @@ public class Clue : Interactable
         
     }
 
+    public override void OnSelect()
+    {
+        if (!collected)
+            base.OnSelect();
+    }
+
     public override void OnInteract()
     {
+        if (collected) return;
+        collected = true;
+
         // Add clue to notebook and deactivate clue
         updateClueCount?.Invoke();
 

@@ -29,8 +29,8 @@ public class ActionObject : Interactable
         audioSrc = GetComponent<AudioSource>();
 
         // Store current transform data
-        inactivePos = transform.position;
-        inactiveRot = transform.rotation.eulerAngles;
+        inactivePos = transform.localPosition;
+        inactiveRot = transform.localRotation.eulerAngles;
     }
 
     private void Update()
