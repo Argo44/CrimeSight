@@ -649,32 +649,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Welcome to CrimeSight!
-
-    In this game you play as a detective trying
-    to solve the cause behind the scene of the crime.
-
-    In this paranormal world,
-    there are various monsters that could be behind the crime, so use your skills
-    and abilities as a detective to find clues and deduce the true culprit!
-
-
-    Controls:
-
-    -WASD:
-    Move
-
-    -Mouse: Look
-
-    -E: Interact with nearby objects/clues
-
-    -Space:
-    Sight Ability (highlights nearby clues)
-
-    -Q: Open/Close Notebook
-
-    -Escape:
-    Pause Game'
+  m_text: "Welcome to CrimeSight! In this paranormal world based on the Dresden Files
+    series, you take on the role of an independent detective investigating crime
+    scenes. These obviously aren't just your normal break-ins and homicides, as your
+    specialty involves magic and monsters as the more viable explanation. Use your
+    skills and abilities as a detective to find clues, finalize a culprit, and track
+    them down! But be warned, rushing headfirst may get you killed, and the culprit
+    may not surrender without a fight\u2026\r\n\nControls:\r\n-W, A, S, D Keys: Move\r\n-Mouse:
+    Camera\r\n-E Key/Left Mouse: Interact\r\n-F Key/Right Mouse: Flashlight\r\n-Space
+    Key: Sight Ability (highlights nearby clues/traps)\r\n-Q Key: Open/Close Notebook\r\n-Escape
+    Key: Pause Game\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

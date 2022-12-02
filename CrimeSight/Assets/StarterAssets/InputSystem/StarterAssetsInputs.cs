@@ -78,6 +78,8 @@ namespace StarterAssets
 		public void OnNotebook(InputValue value)
 		{
 			uiScript.NotebookToggle();
+			move = Vector2.zero;
+			look = Vector2.zero;
 		}
 
 		public void OnInteract(InputValue value)

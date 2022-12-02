@@ -11,11 +11,14 @@ public class GameUI : MonoBehaviour
     public GameObject pauseScreen;
     public GameObject notebook;
     public GameObject notebookHeader;
-    public GameObject notebookText;
     public GameObject notification;
     public GameObject notifcationNumber;
     public GameObject crosshair;
     public GameObject sightUI;
+    public GameObject cluesSection;
+    public GameObject monstersSection;
+    public GameObject howToPlaySection;
+    public GameObject healthUI;
 
     public int numOfNewClues = 0;
     private bool notebookIsClosed = true;
@@ -55,6 +58,7 @@ public class GameUI : MonoBehaviour
             notebook.SetActive(true);
             crosshair.SetActive(true);
             sightUI.SetActive(true);
+            healthUI.SetActive(true);
 
             //Sets timeScale back to 1 so game can resume
             Time.timeScale = 1;
@@ -73,10 +77,12 @@ public class GameUI : MonoBehaviour
 
             //Resets notebook position for animation and disables it (I don't know why it needs these values but it works so I'm not gonna bother with it)
             notebook.transform.position = new Vector3(960, -500, 0);
+            notebookIsClosed = true;
             notebook.SetActive(false);
             notification.SetActive(false);
             crosshair.SetActive(false);
             sightUI.SetActive(false);
+            healthUI.SetActive(false);
 
             //Sets time scale to 0 so game pauses
             Time.timeScale = 0f;
@@ -102,6 +108,7 @@ public class GameUI : MonoBehaviour
             numOfNewClues = 0;
             crosshair.SetActive(!notebookIsClosed);
             sightUI.SetActive(!notebookIsClosed);
+            healthUI.SetActive(!notebookIsClosed);
         }
        
         if (notebook != null)
@@ -141,30 +148,33 @@ public class GameUI : MonoBehaviour
     //List clues in notebook when section is opened
     public void CluesSection()
     {
+        cluesSection.SetActive(true);
+        monstersSection.SetActive(false);
+        howToPlaySection.SetActive(false);
+
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "Clues";
-
-        TextMeshProUGUI clueText = notebookText.GetComponent<TextMeshProUGUI>();
-        clueText.text = "Placeholder section for found clues \n-???\n-???\n-???\n-???\n-???";
     }
 
     //List monster section in notebook when section is opened
     public void MonstersSection()
     {
+        cluesSection.SetActive(false);
+        monstersSection.SetActive(true);
+        howToPlaySection.SetActive(false);
+
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "Monsters";
-
-        TextMeshProUGUI clueText = notebookText.GetComponent<TextMeshProUGUI>();
-        clueText.text = "Placeholder section for monster info: \n-Werewolf:\n-Vampire:\n-Santa Claus:";
     }
 
     //List how to play section in notebook when section is opened
     public void HowToPlaySection()
     {
+        cluesSection.SetActive(false);
+        monstersSection.SetActive(false);
+        howToPlaySection.SetActive(true);
+
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "How To Play";
-
-        TextMeshProUGUI clueText = notebookText.GetComponent<TextMeshProUGUI>();
-        clueText.text = "Welcome to CrimeSight!\nIn this game you play as a detective trying to solve the cause behind the scene of the crime.\nIn this paranormal world, there are various monsters that could be behind the crime, so use your skills and abilities as a detective to find clues and deduce the true culprit!\n\nControls:\n-WASD: Move\n-Mouse: Look\n-E: Interact with nearby objects/clues\n-Space: Sight Ability (highlights nearby clues)\n-Q: Open/Close Notebook\n-Escape: Pause Game";
     }
 }
