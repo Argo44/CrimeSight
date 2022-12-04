@@ -24,6 +24,11 @@ public class Trap : Interactable
     [SerializeField] private AudioClip disarmSFX;
     [SerializeField] private AudioClip detonateSFX;
 
+    private Queue<KeyCode> keyOrder;
+    private List<KeyCode> keys;
+
+
+
     // Properties
     public bool IsSelectable
     {
@@ -33,6 +38,19 @@ public class Trap : Interactable
     // Start is called before the first frame update
     void Start()
     {
+        // Stores keys in order to be pressed
+        keyOrder = new Queue<KeyCode>();
+
+        // Stores list of chosen keys to use
+        keys = new List<KeyCode>() {
+            KeyCode.T,
+            KeyCode.G,
+            KeyCode.H,
+            KeyCode.Y,
+            KeyCode.X,
+            KeyCode.C
+        };
+
         hiddenObj = GetComponent<HiddenObject>();
         audioSrc = GetComponent<AudioSource>();
 
@@ -50,7 +68,7 @@ public class Trap : Interactable
     {
         if (disarming)
         {
-            QuickTime();
+           // QuickTime();
         }
         
     }
@@ -113,6 +131,23 @@ public class Trap : Interactable
     {
         int rand;
 
+        keyOrder.Clear();
+
+        // Create a list that represents unused indices of key List
+        List<int> indices = new List<int>();
+        for (int i = 0; i < 6; i++)
+            indices.Add(i);
+
+        // Randomly pick a number from unused index List, 
+        // place the corresponding key in queue,
+        // then remove that number from the unused index List
+        for (int i = 0; i < 6; i++)
+        {
+            int randInt = Random.Range(0, indices.Count);
+            keyOrder.Enqueue(keys[indices[randInt]]);
+            indices.RemoveAt(randInt);
+        }
+
         // Set all the texts to different keys
         for (int i = 0; i < 6; i++)
         {
@@ -147,36 +182,37 @@ public class Trap : Interactable
             }
         }
 
+
         timer = 5.0f;
     }
 
     // Updates the QTEs every second 
-    void QuickTime()
+    void QuickTime(KeyCode key)
     {
         timer -= Time.deltaTime;
         trapManager.timerText.text = timer.ToString("F2") + "s";
 
         
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (key == keyOrder.Peek())
         {
-
+            keyOrder.Dequeue();
         }
 
 
-        // if (key list is empty)
-        //{
-        //    Debug.Log("Trap disarmed!");
-        //    isArmed = false;
-        //    
-        //    // Visualize deactivation of trap
-        //    TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f, () => {
-        //        Color semigreen = Color.green;
-        //        semigreen.a = 0.05f;
-        //        TweenManager.CreateTween(GetComponent<ParticleSystem>(), semigreen, 0.3f);
-        //    });
-        //    break;
-        //}
+         if (keyOrder.Count == 0)
+        {
+            Debug.Log("Trap disarmed!");
+            isArmed = false;
+            
+            // Visualize deactivation of trap
+            TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f, () => {
+                Color semigreen = Color.green;
+                semigreen.a = 0.05f;
+                TweenManager.CreateTween(GetComponent<ParticleSystem>(), semigreen, 0.3f);
+           });
+           // break;
+        }
 
         // If time expires, detonate trap
         if (timer <= 0)
@@ -186,4 +222,10 @@ public class Trap : Interactable
             Detonate();
         }
     }
+
+    void OnPressC()
+    {
+        Debug.Log("pressed C");
+    }
+
 }
