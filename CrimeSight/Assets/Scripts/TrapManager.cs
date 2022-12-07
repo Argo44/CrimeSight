@@ -12,7 +12,10 @@ public class TrapManager : MonoBehaviour
     private List<Vector3> trapLocations;
     public GameObject canvas;
     public TMP_Text[] GTtexts;
+    public Image[] GTImages;
     public TMP_Text timerText;
+
+    
 
     public Trap currentTrap;
 

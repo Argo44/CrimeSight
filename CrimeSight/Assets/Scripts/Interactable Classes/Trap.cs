@@ -157,6 +157,11 @@ public class Trap : Interactable
         trapManager.GTtexts[currentKey].text = keyOrder.Peek().ToString();
         trapManager.GTtexts[currentKey].gameObject.SetActive(true);
 
+        for (int i = 0; i < 6; i++)
+        {
+            trapManager.GTImages[i].gameObject.GetComponent<Image>().color = Color.white;
+        }
+
         timer = 8.0f;
     }
 
@@ -165,7 +170,6 @@ public class Trap : Interactable
     {
         timer -= Time.deltaTime;
         trapManager.timerText.text = timer.ToString("F2") + "s";
-
         
          if (keyOrder.Count == 0)
          {
@@ -201,6 +205,7 @@ public class Trap : Interactable
             Debug.Log("Good Job! 1 QTE done");
             keyOrder.Dequeue();
             trapManager.GTtexts[currentKey].gameObject.SetActive(false);
+            trapManager.GTImages[currentKey].gameObject.GetComponent<Image>().color = new Color32(65,226,48,255);
             currentKey += 1;
 
             // Show the text of the next Key in the Key Order Queue
@@ -208,6 +213,7 @@ public class Trap : Interactable
             {
                 trapManager.GTtexts[currentKey].text = keyOrder.Peek().ToString();
                 trapManager.GTtexts[currentKey].gameObject.SetActive(true);
+                trapManager.GTImages[currentKey].gameObject.GetComponent<Image>().color = new Color32(89, 109, 192, 255);
             }
         }
     }
