@@ -14,7 +14,7 @@ public class TrapManager : MonoBehaviour
     public TMP_Text[] GTtexts;
     public TMP_Text timerText;
 
-
+    public Trap currentTrap;
 
     // Start is called before the first frame update
     void Start()
