@@ -121,7 +121,7 @@ namespace StarterAssets
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
 			// Get reference to Light object
-			flashlight = GetComponentInChildren<Light>();
+			flashlight = GetComponentInChildren<Light>(true);
 
 			// reset our timeouts on start
 			_fallTimeoutDelta = FallTimeout;

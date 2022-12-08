@@ -129,8 +129,9 @@ public class GameManager : MonoBehaviour
             // Deselect current obj if it becomes unselectable
             if (nonselectable)
                 Deselect();
+            else // Update UI for current obj
+                UpdateSelectionUI(obj);
 
-            // No need to reselect current object
             return;
         }
         else 
@@ -146,22 +147,33 @@ public class GameManager : MonoBehaviour
         // Select object
         selectedObject = obj;
         obj.OnSelect();
-
-        // Update selection UI
-        // Set interaction text by type
-        if (obj is Trap)
-            interactText.text = "Disarm " + obj.name;
-        else if (obj is Clue)
-            interactText.text = "Collect " + obj.name;
-        else
-            interactText.text = "Use " + obj.name;
-
-        interactText.text += " (E)";
-        interactText.gameObject.SetActive(true);
-        crosshair.color = Color.red;
+        UpdateSelectionUI(obj);
 
         // Play selection SFX
         SFXPlayer.Play(SFX.SelectObject);
+    }
+
+    private void UpdateSelectionUI(Interactable obj)
+    {
+        // Set interaction text by type
+        if (obj is Trap)
+            interactText.text = "Disarm " + obj.name;
+        else if (obj is Clue || obj is Keys)
+            interactText.text = "Collect " + obj.name;
+        else
+        {
+            // Object is ActionObject - check if locked
+            ActionObject ao = (ActionObject)obj;
+            if (ao.isLocked)
+                interactText.text = "Unlock " + obj.name;
+            else
+                interactText.text = "Use " + obj.name;
+        }
+
+        // Update text and crosshair
+        interactText.text += " (E)";
+        interactText.gameObject.SetActive(true);
+        crosshair.color = Color.red;
     }
 
     private void Deselect()
@@ -201,21 +213,61 @@ public class GameManager : MonoBehaviour
     }
 
     // Determines if an object is visible to main camera (in view and unobstructed)
-    // NOTE: uses position, so technically edge parts may be visible but be marked as not. Maybe raycast each corner?
     public static bool IsObjectVisible(GameObject obj)
     {
         // Frustrum planes act like a 'box' of what the camera can see
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
-        Vector3 point = obj.transform.position;
 
-        // If object is behind any plane, it is not in view
-        foreach (Plane p in planes)
-            if (p.GetDistanceToPoint(point) < 0) return false;
-        
+        // Determine bounding points of object using collider
+        Collider collider = obj.GetComponent<Collider>();
+        Vector3[] vertices =
+        {
+            obj.transform.position,
+            collider.bounds.max,
+            collider.bounds.max - new Vector3(collider.bounds.size.x, 0, 0),
+            collider.bounds.max - new Vector3(0, collider.bounds.size.y, 0),
+            collider.bounds.max - new Vector3(0, 0, collider.bounds.size.z),
+            collider.bounds.min + new Vector3(collider.bounds.size.x, 0, 0),
+            collider.bounds.min + new Vector3(0, collider.bounds.size.y, 0),
+            collider.bounds.min + new Vector3(0, 0, collider.bounds.size.z),
+            collider.bounds.min
+        };
+
+        // Determine if any bounding points are in view
+        bool objInFrame = false;
+        foreach (Vector3 v in vertices)
+        {
+            bool pointInFrame = true;
+
+            // If point is behind any plane, not in view
+            foreach (Plane p in planes)
+            {
+                pointInFrame = p.GetDistanceToPoint(v) >= 0;
+                if (!pointInFrame) break;
+            }
+
+            // If any bounding point is in view, object is in view
+            objInFrame = pointInFrame;
+            if (objInFrame) break;
+        }
+
+        // If no bounding points in view, object not in view
+        if (!objInFrame) return false;
+
         // If object is in view, use raycast to see if it is unobstructed
-        Ray ray = Camera.main.ScreenPointToRay(Camera.main.WorldToScreenPoint(obj.transform.position));
+        foreach (Vector3 v in vertices)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Camera.main.WorldToScreenPoint(v));
+
+            if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.gameObject == obj)
+                return true;
+        }
+
+        //Ray ray = Camera.main.ScreenPointToRay(Camera.main.WorldToScreenPoint(obj.transform.position));
 
         // If object hit by raycast matches param object, return true
-        return (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.gameObject == obj);
+        //return (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.gameObject == obj);
+
+        return false;
     }
 }

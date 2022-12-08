@@ -213,8 +213,12 @@ MonoBehaviour:
   activatedPosition: {x: -0.008717478, y: 0.2184987, z: -0.4743565}
   activatedRotation: {x: 270, y: 0, z: 89.217}
   tweenTime: 1
-  activeSFX: {fileID: 0}
-  inactiveSFX: {fileID: 0}
+  isLocked: 0
+  keyScript: {fileID: 0}
+  activeSFX: {fileID: 8300000, guid: 3d0dadfec266eb148ba4abe1077b013f, type: 3}
+  inactiveSFX: {fileID: 8300000, guid: 8dfd6e221ec062f449d955fb10021089, type: 3}
+  lockedSFX: {fileID: 8300000, guid: 38b97675e1ea83d48b601496ad06a16d, type: 3}
+  unlockedSFX: {fileID: 8300000, guid: e9f1f256d2454c742bce91547b280e75, type: 3}
 --- !u!1 &2369289798954707686
 GameObject:
   m_ObjectHideFlags: 0

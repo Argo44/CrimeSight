@@ -52,7 +52,7 @@ public class TrapManager : MonoBehaviour
             newTrap.gameObject.name = "Trap";
             newTrap.onDetonate = () =>
             {
-                // ADD VISUAL EFFECT HERE
+                // Create VFX
                 Instantiate(blastVfxPrefab, newTrap.transform.localPosition, newTrap.transform.localRotation, transform);
 
                 // Deal damage to player

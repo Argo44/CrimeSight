@@ -26,6 +26,8 @@ public class ActionObject : Interactable
     private AudioSource audioSrc;
     [SerializeField] private AudioClip activeSFX;
     [SerializeField] private AudioClip inactiveSFX;
+    [SerializeField] private AudioClip lockedSFX;
+    [SerializeField] private AudioClip unlockedSFX;
 
     private void Start()
     {
@@ -51,11 +53,18 @@ public class ActionObject : Interactable
                 //Update UI?
                 keyScript.RemoveKey();
                 isLocked = false;
+
+                if (unlockedSFX != null)
+                    audioSrc.PlayOneShot(unlockedSFX);
             }
             else
             {
-                return;
-            }   
+                if (lockedSFX != null)
+                    audioSrc.PlayOneShot(lockedSFX);
+            }
+
+            // Makes attempting/unlocking object a separate action from using it
+            return;
         }
 
         // Do not tween if unselected or while tweening
