@@ -28,7 +28,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			if (GameManager.State == GameState.Game)
+			if (GameManager.State == GameState.Game && !uiScript.inTrapQTE)
 			{
 				MoveInput(value.Get<Vector2>());
 			}
@@ -36,7 +36,7 @@ namespace StarterAssets
 
 		public void OnLook(InputValue value)
 		{
-			if (GameManager.State == GameState.Game)
+			if (GameManager.State == GameState.Game && !uiScript.inTrapQTE)
 			{
 				if(cursorInputForLook)
 				{
@@ -47,7 +47,7 @@ namespace StarterAssets
 
 		public void OnUseSight(InputValue value)
 		{
-			if (GameManager.State == GameState.Game)
+			if (GameManager.State == GameState.Game && !uiScript.inTrapQTE)
 			{
 				SightInput(value.isPressed);
 			}
@@ -55,7 +55,7 @@ namespace StarterAssets
 
 		public void OnFlashlight(InputValue value)
         {
-			if (GameManager.State == GameState.Game)
+			if (GameManager.State == GameState.Game && !uiScript.inTrapQTE)
             {
 				flashlight = !flashlight;
             }
@@ -63,7 +63,7 @@ namespace StarterAssets
 
 		public void OnSprint(InputValue value)
 		{
-			if (GameManager.State == GameState.Game)
+			if (GameManager.State == GameState.Game && !uiScript.inTrapQTE)
 			{
 				SprintInput(value.isPressed);
 			}
@@ -85,7 +85,7 @@ namespace StarterAssets
 
 		public void OnInteract(InputValue value)
 		{
-			if (GameManager.SelectedObject != null)
+			if (GameManager.SelectedObject != null && !uiScript.inTrapQTE)
 				GameManager.SelectedObject.OnInteract();
 		}
 
