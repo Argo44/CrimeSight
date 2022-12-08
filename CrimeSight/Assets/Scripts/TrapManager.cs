@@ -9,6 +9,7 @@ public class TrapManager : MonoBehaviour
     // Fields
     public int trapCount = 0;
     public List<GameObject> trapPrefabs;
+    public GameObject blastVfxPrefab;
     private List<Vector3> trapLocations;
     public GameObject canvas;
     public TMP_Text[] GTtexts;
@@ -52,7 +53,8 @@ public class TrapManager : MonoBehaviour
             newTrap.onDetonate = () =>
             {
                 // ADD VISUAL EFFECT HERE
-                
+                Instantiate(blastVfxPrefab, newTrap.transform.localPosition, newTrap.transform.localRotation, transform);
+
                 // Deal damage to player
                 GameManager.Player.TakeDamage(25f);
 

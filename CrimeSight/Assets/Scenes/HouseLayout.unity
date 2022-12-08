@@ -17894,6 +17894,7 @@ MonoBehaviour:
   trapPrefabs:
   - {fileID: 8873606496285375299, guid: 272c8e3246efabb4f9c630a84f1c9bb3, type: 3}
   - {fileID: 1145828820686030156, guid: 0680dcae67099654f837c1cf0e0f4c97, type: 3}
+  blastVfxPrefab: {fileID: 1928316412244651432, guid: 2abac8f1ff8e8c347a7a9829ac629b97, type: 3}
   canvas: {fileID: 738604354}
   GTtexts:
   - {fileID: 1653440803}
