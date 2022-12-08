@@ -20,6 +20,10 @@ public class GameUI : MonoBehaviour
     public GameObject howToPlaySection;
     public GameObject healthUI;
 
+    public GameObject keys;
+    public GameObject keyNumber;
+    public int keyTotal; 
+
     public int numOfNewClues = 0;
     private bool notebookIsClosed = true;
 
@@ -38,6 +42,15 @@ public class GameUI : MonoBehaviour
             notification.SetActive(false);
         }
 
+        //Updates number of keys
+        if (keyTotal > 0)
+        {
+            //Activate number of keys in UI
+        }
+        else if(keyTotal == 0) {
+            //Set icon to red
+        }
+
         //If the notebook is closed and the game is not paused update the notification bubble with the current number of new clues
         else if(notebookIsClosed && !pauseScreen.activeInHierarchy)
         {
@@ -45,6 +58,8 @@ public class GameUI : MonoBehaviour
             TextMeshProUGUI newClue = notifcationNumber.GetComponent<TextMeshProUGUI>();
             newClue.text = numOfNewClues.ToString();
         }
+
+
     }
 
     public void PauseGame()
