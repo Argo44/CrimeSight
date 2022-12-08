@@ -29,10 +29,16 @@ public class GameManager : MonoBehaviour
     private Image crosshair;
     private TextMeshProUGUI interactText;
 
-    // Sight Data
+    // Sight FX Data
     static public event SightEventHandler OnSight;
-    private PostProcessVolume sightCamEffect;
+    private PostProcessVolume sightFX;
+    private static readonly float SIGHT_TIME = 2f;
     static private float sightTimer = 0;
+
+    // Damage FX Data
+    private PostProcessVolume damageFX;
+    private static readonly float DMG_TIME = 0.5f;
+    static private float damageTimer = 0;
 
     // Properties
     static public GameState State
@@ -55,7 +61,9 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Game;
         _playerController = playerController;
-        sightCamEffect = Camera.main.GetComponent<PostProcessVolume>();
+        PostProcessVolume[] fxArray = Camera.main.GetComponents<PostProcessVolume>();
+        sightFX = fxArray[0];
+        damageFX = fxArray[1];
         SFXPlayer.Initialize();
 
         // Get selection UI references
@@ -69,8 +77,9 @@ public class GameManager : MonoBehaviour
         // Select object centered in front of camera
         UpdateSelection();
 
-        // Update sight post-process effect
-        SightPostProcessing();
+        // Update post-process effects
+        PostProcessUpdate(sightFX, ref sightTimer, SIGHT_TIME);
+        PostProcessUpdate(damageFX, ref damageTimer, DMG_TIME);
 
         // Update any tweening objects
         TweenManager.UpdateTweens();
@@ -107,9 +116,9 @@ public class GameManager : MonoBehaviour
     {
         // Cast obj as Interactable types to determine select conditions
         Trap trap = null;
-        if (obj is Trap) trap = (Trap)obj;
+        if (obj is Trap t) trap = t;
         Clue clue = null;
-        if (obj is Clue) clue = (Clue)obj;
+        if (obj is Clue c) clue = c;
 
         // Unmarked/unarmed traps & collected clues are not selectable
         bool nonselectable = (trap != null && !trap.IsSelectable) || (clue != null && clue.collected);
@@ -140,9 +149,9 @@ public class GameManager : MonoBehaviour
 
         // Update selection UI
         // Set interaction text by type
-        if (obj is Trap t)
+        if (obj is Trap)
             interactText.text = "Disarm " + obj.name;
-        else if (obj is Clue c)
+        else if (obj is Clue)
             interactText.text = "Collect " + obj.name;
         else
             interactText.text = "Use " + obj.name;
@@ -168,22 +177,27 @@ public class GameManager : MonoBehaviour
         interactText.gameObject.SetActive(false);
     }
 
-    private void SightPostProcessing()
+    private void PostProcessUpdate(PostProcessVolume fx, ref float timer, float time)
     {
-        // Only update if sight is active
-        if (sightTimer <= 0) return;
-        sightTimer -= Time.deltaTime;
+        // Only update if effect is active
+        if (timer <= 0) return;
+        timer -= Time.deltaTime;
 
-        // Update post-process weight
-        // Creates transition that lingers at high values
-        sightCamEffect.weight = -1 * Mathf.Pow(sightTimer - 1, 2) + 1;
+        // Parabolical change in weight over duration
+        fx.weight = -Mathf.Pow(2f / time * timer - 1, 2) + 1;
     }
 
     public static void ActivateSight()
     {
-        sightTimer = 2f;
+        sightTimer = SIGHT_TIME;
         OnSight?.Invoke();
         SFXPlayer.Play(SFX.SightActivation);
+    }
+
+    public static void ActivateDamageFX()
+    {
+        damageTimer = DMG_TIME;
+        // SFXPlayer.Play(SFX.PlayerDamage);
     }
 
     // Determines if an object is visible to main camera (in view and unobstructed)

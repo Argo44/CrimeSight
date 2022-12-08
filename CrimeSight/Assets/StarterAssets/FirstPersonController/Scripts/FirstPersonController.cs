@@ -222,6 +222,7 @@ namespace StarterAssets
         {
 			health -= amount;
 
+			GameManager.ActivateDamageFX();
 			Slider healthSlider = healthBar.GetComponent<Slider>();
 			healthSlider.value = health;
 
