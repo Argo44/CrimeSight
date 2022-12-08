@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SFX
-{ 
-    ClueCollect,
-    SightActivation
-}
-
 public static class SFXPlayer
 {
     // Fields
     private static bool initialized = false;
-    private static AudioSource source;
+    private static AudioSource audioPlayer;
+    private static SFXSource source;
 
     public static void Initialize()
     {
         if (initialized) return;
 
-        source = Camera.main.GetComponent<AudioSource>();
+        audioPlayer = Camera.main.GetComponent<AudioSource>();
+        source = Camera.main.GetComponent<SFXSource>();
         initialized = true;
+    }
+
+    public static void Play(SFX sfx)
+    {
+        if (!initialized) return;
+        
+        audioPlayer.PlayOneShot(source.Library[sfx]);
     }
 }

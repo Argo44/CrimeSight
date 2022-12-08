@@ -130,6 +130,8 @@ public class GameUI : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
 
                 notebookIsClosed = true;
+
+                SFXPlayer.Play(SFX.NotebookClose);
             }
 
             else
@@ -141,6 +143,8 @@ public class GameUI : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
 
                 notebookIsClosed = false;
+
+                SFXPlayer.Play(SFX.NotebookOpen);
             }
         }        
     }
@@ -154,6 +158,7 @@ public class GameUI : MonoBehaviour
 
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "Clues";
+        SFXPlayer.Play(SFX.NotebookTabSwitch);
     }
 
     //List monster section in notebook when section is opened
@@ -165,6 +170,7 @@ public class GameUI : MonoBehaviour
 
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "Monsters";
+        SFXPlayer.Play(SFX.NotebookTabSwitch);
     }
 
     //List how to play section in notebook when section is opened
@@ -176,5 +182,6 @@ public class GameUI : MonoBehaviour
 
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "How To Play";
+        SFXPlayer.Play(SFX.NotebookTabSwitch);
     }
 }

@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         state = GameState.Game;
         _playerController = playerController;
         sightCamEffect = Camera.main.GetComponent<PostProcessVolume>();
+        SFXPlayer.Initialize();
 
         // Get selection UI references
         crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
@@ -110,7 +111,7 @@ public class GameManager : MonoBehaviour
         Clue clue = null;
         if (obj is Clue) clue = (Clue)obj;
 
-        // Traps that arent marked or armed + collected clues are not selectable
+        // Unmarked/unarmed traps & collected clues are not selectable
         bool nonselectable = (trap != null && !trap.IsSelectable) || (clue != null && clue.collected);
 
         // Deselect any current object
@@ -140,26 +141,18 @@ public class GameManager : MonoBehaviour
         // Update selection UI
         // Set interaction text by type
         if (obj is Trap t)
-        {
-            if (t.IsSelectable)
-                interactText.text = "Disarm " + obj.name;
-            else // Do not show UI for unmarked or disarmed traps
-                return;
-
-        }
+            interactText.text = "Disarm " + obj.name;
         else if (obj is Clue c)
-        {
-            if (!c.collected)
-                interactText.text = "Collect " + obj.name;
-            else // Do not show UI for collected clues
-                return;
-        }
+            interactText.text = "Collect " + obj.name;
         else
             interactText.text = "Use " + obj.name;
 
         interactText.text += " (E)";
         interactText.gameObject.SetActive(true);
         crosshair.color = Color.red;
+
+        // Play selection SFX
+        SFXPlayer.Play(SFX.SelectObject);
     }
 
     private void Deselect()
@@ -190,6 +183,7 @@ public class GameManager : MonoBehaviour
     {
         sightTimer = 2f;
         OnSight?.Invoke();
+        SFXPlayer.Play(SFX.SightActivation);
     }
 
     // Determines if an object is visible to main camera (in view and unobstructed)

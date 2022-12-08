@@ -210,6 +210,11 @@ namespace StarterAssets
 
 		private void FlashlightUpdate()
         {
+			// If flashlight is toggled, play SFX
+			if (flashlight.gameObject.activeSelf != _input.flashlight)
+				SFXPlayer.Play(_input.flashlight ? SFX.FlashlightOn : SFX.FlashlightOff);
+
+			// Update flashlight state
 			flashlight.gameObject.SetActive(_input.flashlight);
         }
 

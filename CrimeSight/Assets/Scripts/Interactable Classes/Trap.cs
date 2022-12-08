@@ -22,7 +22,6 @@ public class Trap : Interactable
     private AudioSource audioSrc;
     [SerializeField] private AudioClip interactSFX;
     [SerializeField] private AudioClip disarmSFX;
-    [SerializeField] private AudioClip detonateSFX;
 
     private Queue<KeyCode> keyOrder;
     private List<KeyCode> keys;
@@ -123,11 +122,8 @@ public class Trap : Interactable
         Debug.Log("A trap went off!");
         isArmed = false;
 
-        // Deal damage to play and remove trap from scene
+        // Deal damage to player and remove trap from scene
         onDetonate?.Invoke();
-
-        if (detonateSFX != null)
-            audioSrc.PlayOneShot(detonateSFX);
     }
 
     // Sets all the starter varible for the Quick Time events

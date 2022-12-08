@@ -49,6 +49,9 @@ public class InteractableManager : MonoBehaviour
 
     private int clueAmount;
 
+    // SFX for clues to use when collected
+    [SerializeField] private AudioClip onCollectSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -146,7 +149,7 @@ public class InteractableManager : MonoBehaviour
 
             // Add and initialize new clue
             activeObjects.Add(newClue);
-            newClue.Initialize(clueTypes[i], () => { 
+            newClue.Initialize(clueTypes[i], onCollectSFX, () => { 
                 uiScript.numOfNewClues++;
                 activeObjects.Remove(newClue);
             });

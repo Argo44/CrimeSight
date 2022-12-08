@@ -37,11 +37,10 @@ public class Clue : Interactable
 
     // Audio Data
     private AudioSource audioSrc;
-    [SerializeField]
-    private AudioClip clueCollectSFX;
+    private AudioClip collectSFX;
 
     // Loads clue info for this object
-    public void Initialize(ClueType _type, UnityAction clueCollectUpdateCallback)
+    public void Initialize(ClueType _type, AudioClip onCollectSFX, UnityAction clueCollectUpdateCallback)
     {
         type = _type;
 
@@ -112,6 +111,7 @@ public class Clue : Interactable
             updateClueCount = clueCollectUpdateCallback;
 
             audioSrc = GetComponent<AudioSource>();
+            collectSFX = onCollectSFX;
         }
     }
 
@@ -165,9 +165,7 @@ public class Clue : Interactable
 
         // Add clue to notebook and deactivate clue
         updateClueCount?.Invoke();
-
-        if (clueCollectSFX != null)
-            audioSrc.PlayOneShot(clueCollectSFX);
+        audioSrc.PlayOneShot(collectSFX);
 
         Debug.Log("Clue collected!");
     }

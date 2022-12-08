@@ -10867,11 +10867,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 243657f41ff30984c96ae8bdd633e5d6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.655
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -10953,6 +10953,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1037574145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037574134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dec32f5e2d5fa142bf7e0b78fc4a1ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectObjectSFX: {fileID: 8300000, guid: 1eb0de7ef41468540953c34b40a2a43d, type: 3}
+  flashlightOnSFX: {fileID: 8300000, guid: 58465a1b04dc4c044b5157547c22f3a5, type: 3}
+  flashlightOffSFX: {fileID: 8300000, guid: 6d30520e9fcbb644c85afb8242e12904, type: 3}
+  sightActivateSFX: {fileID: 8300000, guid: 308862ac968b62d43b427bebcfc67eb9, type: 3}
+  notebookOpenSFX: {fileID: 8300000, guid: d9dff62279766424dbde5186f5afa61a, type: 3}
+  notebookTabSwitchSFX: {fileID: 8300000, guid: c93566fb5ea44af42a2ca99f681b28bf, type: 3}
+  notebookCloseSFX: {fileID: 8300000, guid: 6d11ef78f250a404faeb19f8b0ef8ffd, type: 3}
 --- !u!1 &1045999992
 GameObject:
   m_ObjectHideFlags: 0
@@ -15457,6 +15476,7 @@ MonoBehaviour:
   blueClue: {fileID: 1249475716718843951, guid: 4155b1d345bbbd34390da7df47103094, type: 3}
   purpleClue: {fileID: 3249432635132609610, guid: 2d9bffa55ab3de7458c942a7238b2399, type: 3}
   activeObjects: []
+  onCollectSFX: {fileID: 8300000, guid: a721151563831c248a01c4b7e53fc03b, type: 3}
 --- !u!1001 &1530705384
 PrefabInstance:
   m_ObjectHideFlags: 0
