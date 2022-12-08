@@ -15,6 +15,13 @@ public class Keys : Interactable
 
     public KeyManager keyScript;
 
+    private string keyName = "Key";
+    //private string info;
+
+    public string Name()
+    {
+        return keyName;
+    }
 
     public void Initialize(UnityAction clueCollectUpdateCallback)
     {

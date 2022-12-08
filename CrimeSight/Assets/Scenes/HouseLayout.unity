@@ -3319,8 +3319,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tweenOnInteract: 1
   tweenShape: 3
-  activatedPosition: {x: -6.779486, y: 2.919787, z: -9.49067}
-  activatedRotation: {x: 74.04, y: -30, z: 49.904}
+  activatedPosition: {x: -7.372817, y: 2.919787, z: -10.8746}
+  activatedRotation: {x: 74.04, y: 96.286, z: 49.904}
   tweenTime: 1
   isLocked: 0
   keyScript: {fileID: 0}
@@ -13785,7 +13785,7 @@ MonoBehaviour:
   canvasObj: {fileID: 0}
   activeKeys: []
   keyLocationAmount: 0
-  keysCollect: 0
+  keysCollected: 0
 --- !u!4 &1200413222
 Transform:
   m_ObjectHideFlags: 0
@@ -14666,8 +14666,8 @@ MonoBehaviour:
   notebookIcon: {fileID: 872331746}
   interactText: {fileID: 594593226}
   quicktimePanel: {fileID: 738604354}
-  keys: {fileID: 0}
-  keyNumber: {fileID: 0}
+  keys: {fileID: 1200413220}
+  keyNumber: {fileID: 1200413220}
   keyTotal: 0
   numOfNewClues: 0
   inTrapQTE: 0
@@ -14685,6 +14685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 321982265}
+  keyManager: {fileID: 1200413221}
 --- !u!1 &1327690806 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 63763c663bf353c4ba8afbc25a57b54f, type: 3}

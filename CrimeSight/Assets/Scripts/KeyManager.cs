@@ -22,25 +22,25 @@ public class KeyManager : MonoBehaviour
     private int keyLocationAmount;
 
     [SerializeField]
-    private int keysCollect;
+    private int keysCollected;
 
     //Get for Key Amount
-    public int GetKeyAmount()
+    public int KeysCollected()
     {
-        return keysCollect;
+        return keysCollected;
     }
 
     public void RemoveKey()
     {
-        if(keysCollect > 0)
+        if(keysCollected > 0)
         {
-            keysCollect--;
+            keysCollected--;
         }
     }
 
     public void AddKey()
     {
-        keysCollect++;
+        keysCollected++;
     }
 
     // Start is called before the first frame update

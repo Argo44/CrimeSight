@@ -19,8 +19,14 @@ public class ActionObject : Interactable
     private float tweenTimer = 0;
     private bool isActivated = false;
 
-    public bool isLocked = false;
+    [SerializeField]
+    private bool isLocked = false;
     public KeyManager keyScript;
+
+    public bool IsLocked()
+    {
+        return isLocked;
+    }
 
     // Audio Data
     private AudioSource audioSrc;
@@ -46,7 +52,7 @@ public class ActionObject : Interactable
     {
         if(isLocked)
         {
-            if (keyScript.GetKeyAmount() > 0)
+            if (keyScript.KeysCollected() > 0)
             {
                 //Update UI?
                 keyScript.RemoveKey();

@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     private static readonly float DMG_TIME = 0.5f;
     static private float damageTimer = 0;
 
+    //Key Manager
+    public KeyManager keyManager;
+
     // Properties
     static public GameState State
     {
@@ -147,16 +150,36 @@ public class GameManager : MonoBehaviour
         selectedObject = obj;
         obj.OnSelect();
 
+        bool tempLock = false;
+
         // Update selection UI
         // Set interaction text by type
         if (obj is Trap)
             interactText.text = "Disarm " + obj.name;
         else if (obj is Clue)
             interactText.text = "Collect " + obj.name;
+        else if (obj is ActionObject)
+        {
+            ActionObject tempObj = obj as ActionObject;
+            if (tempObj.IsLocked())
+            {
+                if (keyManager.KeysCollected() > 0)
+                    interactText.text = "Use key to unlock";
+                else
+                {
+                    interactText.text = obj.name + " is locked";
+                    tempLock = true;
+                }
+            } 
+            else
+                interactText.text = "Open " + obj.name;
+        }
         else
             interactText.text = "Use " + obj.name;
 
-        interactText.text += " (E)";
+        if(!tempLock)
+            interactText.text += " (E)";
+
         interactText.gameObject.SetActive(true);
         crosshair.color = Color.red;
 
