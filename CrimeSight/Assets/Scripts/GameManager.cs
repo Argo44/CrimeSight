@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     private static readonly float DMG_TIME = 0.5f;
     static private float damageTimer = 0;
 
+    //Key Manager
+    public KeyManager keyManager;
+
     // Properties
     static public GameState State
     {
@@ -147,7 +150,6 @@ public class GameManager : MonoBehaviour
         // Select object
         selectedObject = obj;
         obj.OnSelect();
-        UpdateSelectionUI(obj);
 
         // Play selection SFX
         SFXPlayer.Play(SFX.SelectObject);
@@ -155,23 +157,36 @@ public class GameManager : MonoBehaviour
 
     private void UpdateSelectionUI(Interactable obj)
     {
+        bool tempLock = false;
+
+        // Update selection UI
         // Set interaction text by type
         if (obj is Trap)
             interactText.text = "Disarm " + obj.name;
         else if (obj is Clue || obj is Keys)
             interactText.text = "Collect " + obj.name;
-        else
+        else if (obj is ActionObject)
         {
-            // Object is ActionObject - check if locked
-            ActionObject ao = (ActionObject)obj;
-            if (ao.isLocked)
-                interactText.text = "Unlock " + obj.name;
+            ActionObject tempObj = obj as ActionObject;
+            if (tempObj.IsLocked())
+            {
+                if (keyManager.KeysCollected() > 0)
+                    interactText.text = "Use key to unlock";
+                else
+                {
+                    interactText.text = obj.name + " is locked";
+                    tempLock = true;
+                }
+            } 
             else
-                interactText.text = "Use " + obj.name;
+                interactText.text = "Open " + obj.name;
         }
+        else
+            interactText.text = "Use " + obj.name;
 
-        // Update text and crosshair
-        interactText.text += " (E)";
+        if(!tempLock)
+            interactText.text += " (E)";
+
         interactText.gameObject.SetActive(true);
         crosshair.color = Color.red;
     }
