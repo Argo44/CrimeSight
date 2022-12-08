@@ -18,12 +18,35 @@ public class KeyManager : MonoBehaviour
     [SerializeField]
     public List<Keys> activeKeys = new List<Keys>();
 
-    private int keyAmount;
+    [SerializeField]
+    private int keyLocationAmount;
+
+    [SerializeField]
+    private int keysCollect;
+
+    //Get for Key Amount
+    public int GetKeyAmount()
+    {
+        return keysCollect;
+    }
+
+    public void RemoveKey()
+    {
+        if(keysCollect > 0)
+        {
+            keysCollect--;
+        }
+    }
+
+    public void AddKey()
+    {
+        keysCollect++;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        keyAmount = 3;
+        keyLocationAmount = 3;
         locationNum = keyLocations.Count;
         //uiScript = canvasObj.GetComponent<GameUI>();
 
@@ -45,7 +68,7 @@ public class KeyManager : MonoBehaviour
         for (int i = 0; i < locationNum; i++)
             unusedLocationIDs.Add(i);
 
-        for (int i = 0; i < keyAmount; i++)
+        for (int i = 0; i < keyLocationAmount; i++)
         {
             // Pick unused ID and remove from list
             itemNum = unusedLocationIDs[Random.Range(0, unusedLocationIDs.Count)];

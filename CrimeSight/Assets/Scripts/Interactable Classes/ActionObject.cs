@@ -19,6 +19,9 @@ public class ActionObject : Interactable
     private float tweenTimer = 0;
     private bool isActivated = false;
 
+    public bool isLocked = false;
+    public KeyManager keyScript;
+
     // Audio Data
     private AudioSource audioSrc;
     [SerializeField] private AudioClip activeSFX;
@@ -41,6 +44,20 @@ public class ActionObject : Interactable
 
     public override void OnInteract()
     {
+        if(isLocked)
+        {
+            if (keyScript.GetKeyAmount() > 0)
+            {
+                //Update UI?
+                keyScript.RemoveKey();
+                isLocked = false;
+            }
+            else
+            {
+                return;
+            }   
+        }
+
         // Do not tween if unselected or while tweening
         if (!tweenOnInteract || tweenTimer > 0) return;
 

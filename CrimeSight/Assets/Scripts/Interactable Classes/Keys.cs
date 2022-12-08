@@ -13,6 +13,8 @@ public class Keys : Interactable
     public bool collected = false;
     private UnityAction updateClueCount;
 
+    public KeyManager keyScript;
+
 
     public void Initialize(UnityAction clueCollectUpdateCallback)
     {
@@ -40,6 +42,8 @@ public class Keys : Interactable
     {
         collected = true;
         this.gameObject.SetActive(false);
+        keyScript.AddKey();
+
         Debug.Log("This was interacted with");
         Debug.Log("key collected!");
     }
