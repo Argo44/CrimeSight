@@ -14,11 +14,12 @@ public class GameUI : MonoBehaviour
     public GameObject notification;
     public GameObject notifcationNumber;
     public GameObject crosshair;
-    public GameObject sightUI;
+    public GameObject sightIcon;
     public GameObject cluesSection;
     public GameObject monstersSection;
     public GameObject howToPlaySection;
     public GameObject healthUI;
+    public GameObject notebookIcon;
 
     public GameObject keys;
     public GameObject keyNumber;
@@ -72,8 +73,9 @@ public class GameUI : MonoBehaviour
             notification.SetActive(true);
             notebook.SetActive(true);
             crosshair.SetActive(true);
-            sightUI.SetActive(true);
+            sightIcon.SetActive(true);
             healthUI.SetActive(true);
+            notebookIcon.SetActive(true);
 
             //Sets timeScale back to 1 so game can resume
             Time.timeScale = 1;
@@ -96,8 +98,9 @@ public class GameUI : MonoBehaviour
             notebook.SetActive(false);
             notification.SetActive(false);
             crosshair.SetActive(false);
-            sightUI.SetActive(false);
+            sightIcon.SetActive(false);
             healthUI.SetActive(false);
+            notebookIcon.SetActive(false);
 
             //Sets time scale to 0 so game pauses
             Time.timeScale = 0f;
@@ -122,8 +125,9 @@ public class GameUI : MonoBehaviour
         {
             numOfNewClues = 0;
             crosshair.SetActive(!notebookIsClosed);
-            sightUI.SetActive(!notebookIsClosed);
+            sightIcon.SetActive(!notebookIsClosed);
             healthUI.SetActive(!notebookIsClosed);
+            notebookIcon.SetActive(!notebookIsClosed);
         }
        
         if (notebook != null)
