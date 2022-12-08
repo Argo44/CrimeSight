@@ -9,7 +9,7 @@ using TMPro;
 
 public class Interactable : MonoBehaviour
 {
-
+  
     private void Start()
     {
         

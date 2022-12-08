@@ -84,6 +84,9 @@ namespace StarterAssets
 		//Reference to Health Bar Slider
 		public GameObject healthBar;
 
+		//Reference to the trap manager
+		public TrapManager trapManager;
+
 
 		private const float _threshold = 0.01f;
 
@@ -134,6 +137,12 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+
+			if(_input.QTEkey != null)
+            {
+				//Update the QTE 
+				UpdateQTE();
+			}
 		}
 
 		private void LateUpdate()
@@ -322,6 +331,14 @@ namespace StarterAssets
 				_verticalVelocity += Gravity * Time.deltaTime;
 			}
 		}
+
+		private void UpdateQTE()
+        {
+			if(trapManager.currentTrap != null)
+            {
+				trapManager.currentTrap.CheckKey(_input.QTEkey);
+			}
+        }
 
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{

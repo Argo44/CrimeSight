@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool sight;
 		public bool sprint;
 		public bool flashlight = false;
+		public KeyCode QTEkey;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -87,6 +88,36 @@ namespace StarterAssets
 			if (GameManager.SelectedObject != null)
 				GameManager.SelectedObject.OnInteract();
 		}
+
+		public void OnQTEc(InputValue value)
+        {
+			QTEkey = KeyCode.C;
+		}
+
+		public void OnQTEx(InputValue value)
+		{
+			QTEkey = KeyCode.X;
+		}
+
+		public void OnQTEt(InputValue value)
+		{
+			QTEkey = KeyCode.T;
+		}
+
+		public void OnQTEg(InputValue value)
+		{
+			QTEkey = KeyCode.G;
+		}
+
+		public void OnQTEh(InputValue value)
+		{
+			QTEkey = KeyCode.H;
+		}
+
+		public void OnQTEy(InputValue value)
+		{
+			QTEkey = KeyCode.Y;
+		}
 #endif
 
 
@@ -109,7 +140,12 @@ namespace StarterAssets
 		{
 			sprint = newSprintState;
 		}
-		
+
+		public void QTEInput(KeyCode newKey)
+		{
+			QTEkey = newKey;
+		}
+
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);

@@ -26,6 +26,9 @@ public class Trap : Interactable
 
     private Queue<KeyCode> keyOrder;
     private List<KeyCode> keys;
+    private int currentKey;
+
+   
 
 
 
@@ -68,7 +71,7 @@ public class Trap : Interactable
     {
         if (disarming)
         {
-           // QuickTime();
+            QuickTime();
         }
         
     }
@@ -89,6 +92,8 @@ public class Trap : Interactable
         trapManager.ToggleQuickTimeCanvas();
         disarming = true;
         Disarm();
+
+        trapManager.currentTrap = this;
 
         // Play SFX
         if (interactSFX != null)
@@ -131,6 +136,7 @@ public class Trap : Interactable
     {
         int rand;
 
+        currentKey = 0;
         keyOrder.Clear();
 
         // Create a list that represents unused indices of key List
@@ -148,63 +154,31 @@ public class Trap : Interactable
             indices.RemoveAt(randInt);
         }
 
-        // Set all the texts to different keys
+        trapManager.GTtexts[currentKey].text = keyOrder.Peek().ToString();
+        trapManager.GTtexts[currentKey].gameObject.SetActive(true);
+
         for (int i = 0; i < 6; i++)
         {
-            rand = Random.Range(0, 6);
-
-            // Pick a random key to show
-            switch (rand)
-            {
-                case 0:
-                    trapManager.GTtexts[i].text = "G";
-                    break;
-
-                case 1:
-                    trapManager.GTtexts[i].text = "H";
-                    break;
-
-                case 2:
-                    trapManager.GTtexts[i].text = "J";
-                    break;
-
-                case 3:
-                    trapManager.GTtexts[i].text = "Y";
-                    break;
-
-                case 4:
-                    trapManager.GTtexts[i].text = "T";
-                    break;
-
-                case 5:
-                    trapManager.GTtexts[i].text = "R";
-                    break;
-            }
+            trapManager.GTImages[i].gameObject.GetComponent<Image>().color = Color.white;
         }
 
-
-        timer = 5.0f;
+        timer = 8.0f;
     }
 
     // Updates the QTEs every second 
-    void QuickTime(KeyCode key)
+    void QuickTime()
     {
         timer -= Time.deltaTime;
         trapManager.timerText.text = timer.ToString("F2") + "s";
-
         
-
-        if (key == keyOrder.Peek())
-        {
-            keyOrder.Dequeue();
-        }
-
-
          if (keyOrder.Count == 0)
-        {
+         {
             Debug.Log("Trap disarmed!");
+           // trapManager.GTtexts[currentKey].gameObject.SetActive(false);
             isArmed = false;
-            
+            disarming = false;
+            trapManager.ToggleQuickTimeCanvas();
+
             // Visualize deactivation of trap
             TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f, () => {
                 Color semigreen = Color.green;
@@ -212,20 +186,35 @@ public class Trap : Interactable
                 TweenManager.CreateTween(GetComponent<ParticleSystem>(), semigreen, 0.3f);
            });
            // break;
-        }
+         }
 
         // If time expires, detonate trap
         if (timer <= 0)
         {
             trapManager.ToggleQuickTimeCanvas();
+            trapManager.GTtexts[currentKey].gameObject.SetActive(false);
             disarming = false;
             Detonate();
         }
     }
 
-    void OnPressC()
+    public void CheckKey(KeyCode key)
     {
-        Debug.Log("pressed C");
-    }
+        if (keyOrder.Count != 0 && key == keyOrder.Peek())
+        {
+            Debug.Log("Good Job! 1 QTE done");
+            keyOrder.Dequeue();
+            trapManager.GTtexts[currentKey].gameObject.SetActive(false);
+            trapManager.GTImages[currentKey].gameObject.GetComponent<Image>().color = new Color32(65,226,48,255);
+            currentKey += 1;
 
+            // Show the text of the next Key in the Key Order Queue
+            if(currentKey < trapManager.GTtexts.Length)
+            {
+                trapManager.GTtexts[currentKey].text = keyOrder.Peek().ToString();
+                trapManager.GTtexts[currentKey].gameObject.SetActive(true);
+                trapManager.GTImages[currentKey].gameObject.GetComponent<Image>().color = new Color32(89, 109, 192, 255);
+            }
+        }
+    }
 }
