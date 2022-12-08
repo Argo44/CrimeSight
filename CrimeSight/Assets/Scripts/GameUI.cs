@@ -14,14 +14,23 @@ public class GameUI : MonoBehaviour
     public GameObject notification;
     public GameObject notifcationNumber;
     public GameObject crosshair;
-    public GameObject sightUI;
+    public GameObject sightIcon;
     public GameObject cluesSection;
     public GameObject monstersSection;
     public GameObject howToPlaySection;
     public GameObject healthUI;
+    public GameObject notebookIcon;
+    public GameObject interactText;
+    public GameObject quicktimePanel;
+
+    public GameObject keys;
+    public GameObject keyNumber;
+    public int keyTotal; 
 
     public int numOfNewClues = 0;
     private bool notebookIsClosed = true;
+    public bool inTrapQTE = false;
+    public bool isPaused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +47,15 @@ public class GameUI : MonoBehaviour
             notification.SetActive(false);
         }
 
+        //Updates number of keys
+        if (keyTotal > 0)
+        {
+            //Activate number of keys in UI
+        }
+        else if(keyTotal == 0) {
+            //Set icon to red
+        }
+
         //If the notebook is closed and the game is not paused update the notification bubble with the current number of new clues
         else if(notebookIsClosed && !pauseScreen.activeInHierarchy)
         {
@@ -45,20 +63,24 @@ public class GameUI : MonoBehaviour
             TextMeshProUGUI newClue = notifcationNumber.GetComponent<TextMeshProUGUI>();
             newClue.text = numOfNewClues.ToString();
         }
+
+        isPaused = pauseScreen.activeInHierarchy;
     }
 
     public void PauseGame()
     {
         //Resumes game
-        if (pauseScreen.activeInHierarchy)
+        if (isPaused)
         {
             //Disables pause screen UI and enables in-game UI
             pauseScreen.SetActive(false);
             notification.SetActive(true);
             notebook.SetActive(true);
             crosshair.SetActive(true);
-            sightUI.SetActive(true);
+            sightIcon.SetActive(true);
             healthUI.SetActive(true);
+            notebookIcon.SetActive(true);
+            quicktimePanel.SetActive(inTrapQTE);
 
             //Sets timeScale back to 1 so game can resume
             Time.timeScale = 1;
@@ -81,8 +103,11 @@ public class GameUI : MonoBehaviour
             notebook.SetActive(false);
             notification.SetActive(false);
             crosshair.SetActive(false);
-            sightUI.SetActive(false);
+            sightIcon.SetActive(false);
             healthUI.SetActive(false);
+            notebookIcon.SetActive(false);
+            interactText.SetActive(false);
+            quicktimePanel.SetActive(false);
 
             //Sets time scale to 0 so game pauses
             Time.timeScale = 0f;
@@ -103,12 +128,13 @@ public class GameUI : MonoBehaviour
     //Plays animation for pulling up the notebook
     public void NotebookToggle()
     {
-        if (!pauseScreen.activeInHierarchy)
+        if (!isPaused)
         {
             numOfNewClues = 0;
             crosshair.SetActive(!notebookIsClosed);
-            sightUI.SetActive(!notebookIsClosed);
+            sightIcon.SetActive(!notebookIsClosed);
             healthUI.SetActive(!notebookIsClosed);
+            notebookIcon.SetActive(!notebookIsClosed);
         }
        
         if (notebook != null)
@@ -128,6 +154,8 @@ public class GameUI : MonoBehaviour
 
                 //Lock mouse cursor and set state back to game
                 Cursor.lockState = CursorLockMode.Locked;
+
+                CluesSection();
 
                 notebookIsClosed = true;
 
