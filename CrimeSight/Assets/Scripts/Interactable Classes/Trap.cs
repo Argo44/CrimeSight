@@ -17,6 +17,7 @@ public class Trap : Interactable
     private float timer;
     private bool disarming = false;
     private TrapManager trapManager;
+    private GameUI gameUIScript;
 
     // Audio Data
     private AudioSource audioSrc;
@@ -58,6 +59,7 @@ public class Trap : Interactable
         audioSrc = GetComponent<AudioSource>();
 
         trapManager = GameObject.Find("Trap Manager").GetComponent<TrapManager>();
+        gameUIScript = GameObject.Find("Canvas").GetComponent<GameUI>();
         //timerText = GameObject.Find("QuickTime").transform.GetChild(0).GetChild(6).gameObject.GetComponent<TMP_Text>();
 
         // Set the texts 
@@ -69,7 +71,7 @@ public class Trap : Interactable
     // Update is called once per frame
     void Update()
     {
-        if (disarming)
+        if (disarming && !gameUIScript.isPaused)
         {
             QuickTime();
         }
@@ -89,15 +91,20 @@ public class Trap : Interactable
         if (!IsSelectable) return;
 
         // Start disarm QTE
-        trapManager.ToggleQuickTimeCanvas();
-        disarming = true;
-        Disarm();
+        if (!gameUIScript.isPaused)
+        {
+            gameUIScript.inTrapQTE = true;
+            trapManager.ToggleQuickTimeCanvas();
+            disarming = true;
+            Disarm();
 
-        trapManager.currentTrap = this;
+            trapManager.currentTrap = this;
 
-        // Play SFX
-        if (interactSFX != null)
-            audioSrc.PlayOneShot(interactSFX);
+
+            // Play SFX
+            if (interactSFX != null)
+                audioSrc.PlayOneShot(interactSFX);
+        }
     }
 
     // Only select trap if it is marked with Sight
@@ -122,6 +129,7 @@ public class Trap : Interactable
 
         Debug.Log("A trap went off!");
         isArmed = false;
+        gameUIScript.inTrapQTE = false;
 
         // Deal damage to play and remove trap from scene
         onDetonate?.Invoke();
@@ -176,6 +184,7 @@ public class Trap : Interactable
             Debug.Log("Trap disarmed!");
            // trapManager.GTtexts[currentKey].gameObject.SetActive(false);
             isArmed = false;
+            gameUIScript.inTrapQTE = false;
             disarming = false;
             trapManager.ToggleQuickTimeCanvas();
 
