@@ -64,11 +64,7 @@ public class GameUI : MonoBehaviour
             newClue.text = numOfNewClues.ToString();
         }
 
-<<<<<<< Updated upstream
-
-=======
         isPaused = pauseScreen.activeInHierarchy;
->>>>>>> Stashed changes
     }
 
     public void PauseGame()
