@@ -5541,14 +5541,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663189279}
-  m_LocalRotation: {x: -0, y: 0.9794823, z: -0, w: 0.20153059}
-  m_LocalPosition: {x: -0.108800426, y: 0.05161605, z: 0.081919245}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -0.108800426, y: 0.0459, z: 0.081919245}
   m_LocalScale: {x: 0.15925953, y: 0.15925963, z: 0.15925953}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 611711542}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!108 &663189281
 Light:
   m_ObjectHideFlags: 0
@@ -5558,13 +5558,13 @@ Light:
   m_GameObject: {fileID: 663189279}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.6771649, b: 0.2921858, a: 1}
   m_Intensity: 1
   m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 127
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -6229,14 +6229,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809884805}
-  m_LocalRotation: {x: -0, y: 0.9794823, z: -0, w: 0.20153059}
-  m_LocalPosition: {x: -0.11594839, y: 0.050373808, z: 0.058012314}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -0.11594839, y: 0.0466, z: 0.058012314}
   m_LocalScale: {x: 0.15925953, y: 0.15925963, z: 0.15925953}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 611711542}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!108 &809884807
 Light:
   m_ObjectHideFlags: 0
@@ -6246,12 +6246,12 @@ Light:
   m_GameObject: {fileID: 809884805}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.6771649, b: 0.2921858, a: 1}
   m_Intensity: 1
   m_Range: 10
-  m_SpotAngle: 30
+  m_SpotAngle: 127
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
@@ -12004,14 +12004,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527869211}
-  m_LocalRotation: {x: -0, y: 0.9794823, z: -0, w: 0.20153059}
-  m_LocalPosition: {x: -0.08191201, y: 0.025959337, z: 0.0885675}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -0.08191201, y: 0.0175, z: 0.0885675}
   m_LocalScale: {x: 0.15925953, y: 0.15925963, z: 0.15925953}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 611711542}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!108 &1527869213
 Light:
   m_ObjectHideFlags: 0
@@ -12021,13 +12021,13 @@ Light:
   m_GameObject: {fileID: 1527869211}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.6771649, b: 0.2921858, a: 1}
   m_Intensity: 1
   m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 127
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -12135,6 +12135,12 @@ MonoBehaviour:
   greenClue: {fileID: 7600228552033692277, guid: 7630faf87fe13124eb3c47f654825438, type: 3}
   blueClue: {fileID: 1249475716718843951, guid: 4155b1d345bbbd34390da7df47103094, type: 3}
   purpleClue: {fileID: 3249432635132609610, guid: 2d9bffa55ab3de7458c942a7238b2399, type: 3}
+  clawMarksPrefab: {fileID: 0}
+  footPrintsPrefab: {fileID: 0}
+  furPrefab: {fileID: 0}
+  pocketWatchPrefab: {fileID: 0}
+  calendarPrefab: {fileID: 0}
+  cluePrefab: []
   activeObjects: []
   onCollectSFX: {fileID: 0}
 --- !u!1 &1562889675

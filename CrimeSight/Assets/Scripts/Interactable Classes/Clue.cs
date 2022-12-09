@@ -44,6 +44,11 @@ public class Clue : Interactable
     private AudioSource audioSrc;
     private AudioClip collectSFX;
 
+    public string ClueName()
+    {
+        return clueName;
+    }
+
     // Loads clue info for this object
     public void Initialize(ClueType _type, AudioClip onCollectSFX, UnityAction clueCollectUpdateCallback)
     {
@@ -75,53 +80,47 @@ public class Clue : Interactable
                     clueNumber = 3;
                     break;
 
-                case ClueType.Painting:
-                    clueName = "Painting";
-                    info = "This is a painting on the wall";
-                    clueNumber = 4;
-                    break;
-
                 case ClueType.BloodSplatter:
                     clueName = "Blood Splatter";
                     info = "This is a blood splatter on the wall";
-                    clueNumber = 5;
+                    clueNumber = 4;
                     break;
 
                 case ClueType.ClawMarks:
                     clueName = "Claw Marks";
                     info = "This is a claw mark on the wall";
-                    clueNumber = 6;
+                    clueNumber = 5;
                     break;
 
                 case ClueType.Blood:
                     clueName = "Blood";
                     info = "This is a hidden blood splatter";
-                    clueNumber = 7;
+                    clueNumber = 6;
                     break;
 
                 case ClueType.FootPrints:
                     clueName = "Foot Prints";
                     info = "This is a hidden track of foot prints";
-                    clueNumber = 8;
+                    clueNumber = 7;
                     break;
 
                 case ClueType.Fur:
                     clueName = "Fur";
                     info = "This is a hidden piece of fur";
-                    clueNumber = 9;
+                    clueNumber = 8;
                     break;
 
                 case ClueType.PocketWatch:
                     clueName = "Pocket Watch";
                     info = "This is silver pocket watch";
-                    clueNumber = 10;
+                    clueNumber = 9;
                     break;
 
 
                 case ClueType.Calendar:
                     clueName = "Calendar";
                     info = "This is a calendar with the moon cycles on it";
-                    clueNumber = 11;
+                    clueNumber = 10;
                     break;
                    
                 case ClueType.Red:

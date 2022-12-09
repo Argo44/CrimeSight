@@ -191,8 +191,13 @@ public class GameManager : MonoBehaviour
             interactText.text = "Leave";
         if (obj is Trap)
             interactText.text = "Disarm " + obj.name;
-        else if (obj is Clue || obj is Keys)
-            interactText.text = "Collect " + obj.name;
+        else if (obj is Clue)
+        {
+            Clue tempObj = obj as Clue;
+            interactText.text = "Collect " + tempObj.ClueName();
+        }     
+        else if  (obj is Keys)
+            interactText.text = "Collect key";
         else if (obj is ActionObject)
         {
             ActionObject tempObj = obj as ActionObject;
@@ -321,6 +326,7 @@ public class GameManager : MonoBehaviour
 
     public static void EndGame(GameEndState endState)
     {
+        OnEndGame?.Invoke(endState);
         instance.StartCoroutine(EndGameFX());
     }
 

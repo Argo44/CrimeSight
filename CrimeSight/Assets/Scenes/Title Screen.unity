@@ -1003,7 +1003,23 @@ MonoBehaviour:
     Title
     Screen Background: https://www.istockphoto.com/vector/crime-scene-at-night-murder-place-in-dark-room-gm1198436097-342512070
 
-'
+    Magic
+    Circles: RPG VFX Bundle by Hovl Studio
+
+    SFX: Ultimate Sound FX Bundle by
+    Sidearm Studios
+
+    BGM: Total Music Collection by Muz Station Productions
+
+
+    Environmental
+    models taken from:
+
+    https://www.turbosquid.com/
+
+    https://free3d.com/
+
+    https://www.cgtrader.com/'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2786ed744fedbf74298b4cb9f7ee7fae, type: 2}
   m_sharedMaterial: {fileID: 7804706154393276479, guid: 2786ed744fedbf74298b4cb9f7ee7fae, type: 2}
@@ -1030,7 +1046,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 63.6
+  m_fontSize: 41.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
