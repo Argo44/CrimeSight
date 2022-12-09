@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
@@ -12,17 +14,27 @@ public enum GameState
     QTE
 }
 
+public enum GameEndState
+{
+    LevelExit,
+    PlayerDeath
+}
+
 // Delegate for handling HiddenObject activation on Sight usage
 public delegate void SightEventHandler();
 
 // Delegate for updating info text in UI
 public delegate void UiInfoUpdateHandler(string info);
 
+// Delegate for showing end screen
+public delegate void GameEndHandler(GameEndState endState);
+
 public class GameManager : MonoBehaviour
 {
 
     // Fields
     static private GameState state;
+    static private GameManager instance;
     [SerializeField] private StarterAssets.FirstPersonController playerController;
     static private StarterAssets.FirstPersonController _playerController;
 
@@ -35,6 +47,7 @@ public class GameManager : MonoBehaviour
     // Events
     static public event SightEventHandler OnSight;
     static public event UiInfoUpdateHandler OnInfoUpdate;
+    static public event GameEndHandler OnEndGame;
 
     // Sight FX Data
     private PostProcessVolume sightFX;
@@ -45,6 +58,9 @@ public class GameManager : MonoBehaviour
     private PostProcessVolume damageFX;
     static private readonly float DMG_TIME = 0.5f;
     static private float damageTimer = 0;
+
+    // EndGame FX Data
+    static private PostProcessVolume endGameFX;
 
     //Key Manager
     public KeyManager keyManager;
@@ -68,11 +84,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
         state = GameState.Game;
         _playerController = playerController;
         PostProcessVolume[] fxArray = Camera.main.GetComponents<PostProcessVolume>();
         sightFX = fxArray[0];
         damageFX = fxArray[1];
+        endGameFX = fxArray[2];
         SFXPlayer.Initialize();
 
         // Get selection UI references
@@ -83,15 +101,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update any tweening objects
+        TweenManager.UpdateTweens();
+
+        if (state == GameState.Menu) return;
+
         // Select object centered in front of camera
         UpdateSelection();
 
         // Update post-process effects
         PostProcessUpdate(sightFX, ref sightTimer, SIGHT_TIME);
         PostProcessUpdate(damageFX, ref damageTimer, DMG_TIME);
-
-        // Update any tweening objects
-        TweenManager.UpdateTweens();
     }
 
     /// <summary>
@@ -167,6 +187,8 @@ public class GameManager : MonoBehaviour
 
         // Update selection UI
         // Set interaction text by type
+        if (obj is LevelExit)
+            interactText.text = "Leave";
         if (obj is Trap)
             interactText.text = "Disarm " + obj.name;
         else if (obj is Clue || obj is Keys)
@@ -296,4 +318,28 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
+
+    public static void EndGame(GameEndState endState)
+    {
+        instance.StartCoroutine(EndGameFX());
+    }
+
+    private static IEnumerator EndGameFX()
+    {
+        float fadeTime = 1f;
+
+        while (fadeTime > 0)
+        {
+            fadeTime -= Time.deltaTime;
+            endGameFX.weight += Time.deltaTime;
+            yield return null;
+        }
+
+    }
+
+    public static void ReturnToMenu()
+    {
+        SceneManager.LoadScene("Title Screen");
+    }
+
 }

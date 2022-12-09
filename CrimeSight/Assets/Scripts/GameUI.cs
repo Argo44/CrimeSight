@@ -24,6 +24,9 @@ public class GameUI : MonoBehaviour
     public GameObject interactText;
     public GameObject quicktimePanel;
     public GameObject infoText;
+    public GameObject endScreen;
+    public TextMeshProUGUI endTitle;
+    public TextMeshProUGUI endSubtext;
 
     public List<GameObject> keySprites = new List<GameObject>();
 
@@ -36,10 +39,18 @@ public class GameUI : MonoBehaviour
     public bool isPaused = false;
     private float infoTimer = 0;
 
+    private static MonsterInfo selectedMonster;
+    public static MonsterInfo SelectedMonster
+    {
+        get { return selectedMonster; }
+        set { selectedMonster = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         GameManager.OnInfoUpdate += UpdateInfoText;
+        GameManager.OnEndGame += EndGameScreen;
     }
 
     // Update is called once per frame
@@ -262,4 +273,61 @@ public class GameUI : MonoBehaviour
         text.text = info;
         infoTimer = 5;
     }
+
+    private void EndGameScreen(GameEndState state)
+    {
+        if (state == GameEndState.PlayerDeath)
+        {
+            endTitle.color = Color.red;
+            endTitle.text = "You Died";
+            endSubtext.text = "Better keep an eye out for traps...";
+        }
+        else
+        {
+            if (InteractableManager.monster == selectedMonster.monsterType)
+            {
+                endTitle.color = Color.green;
+                endTitle.text = "You Win";
+                endSubtext.text = "You deduced the culprit's identity!";
+            }
+            else
+            {
+                endTitle.color = Color.red;
+                endTitle.text = "You Lose";
+                endSubtext.text = "Your guess was wrong, and the consequences were deadly...";
+            }
+        }
+
+        StartCoroutine(EndScreenCorountine());
+
+        //Enables pause screen
+        notebookIsClosed = true;
+        notebook.SetActive(false);
+        notification.SetActive(false);
+        crosshair.SetActive(false);
+        sightIcon.SetActive(false);
+        healthUI.SetActive(false);
+        notebookIcon.SetActive(false);
+        interactText.SetActive(false);
+        infoText.SetActive(false);
+        quicktimePanel.SetActive(false);
+
+        //Changes game state to Menu
+        GameManager.State = GameState.Menu;
+
+        //Unlock mosue cursor and set state to menu
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    private IEnumerator EndScreenCorountine()
+    {
+        RectTransform t = endScreen.GetComponent<RectTransform>();
+        
+        while (t.localScale.x < 1)
+        {
+            t.localScale += new Vector3(Time.deltaTime, Time.deltaTime);
+            yield return null;
+        }
+    }
+
 }

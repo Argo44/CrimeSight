@@ -233,8 +233,9 @@ namespace StarterAssets
 			Slider healthSlider = healthBar.GetComponent<Slider>();
 			healthSlider.value = health;
 
-			//if (health <= 0)
-				// Lose condition
+			// End game if player dies
+			if (health <= 0)
+				GameManager.EndGame(GameEndState.PlayerDeath);
         }
 
 		private void GroundedCheck()

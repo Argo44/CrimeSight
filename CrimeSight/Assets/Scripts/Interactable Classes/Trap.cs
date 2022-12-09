@@ -165,6 +165,16 @@ public class Trap : Interactable
         }
 
         timer = 8.0f;
+
+        GameObject magicCircleImage = GameObject.Find("Circle");
+        TweenManager.CreateTween(magicCircleImage.transform, TweenType.Rotation,
+            magicCircleImage.transform.localEulerAngles + new Vector3(0, 0, 360f), timer);
+        
+        foreach (TMP_Text text in trapManager.GTtexts)
+        {
+            TweenManager.CreateTween(text.transform, TweenType.Rotation,
+                text.transform.localEulerAngles + new Vector3(0, 0, -360f), timer);
+        }
     }
 
     // Updates the QTEs every second 

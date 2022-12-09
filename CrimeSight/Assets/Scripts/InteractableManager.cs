@@ -31,6 +31,7 @@ public class InteractableManager : MonoBehaviour
 
     //Monster Type to determine what interactables should be used
     public MonsterType monsterType;
+    static public MonsterType monster;
 
     //Prefabs For Clues
     public GameObject activeObject;
@@ -56,6 +57,7 @@ public class InteractableManager : MonoBehaviour
     public List<Clue> activeObjects = new List<Clue>();
 
     private int clueAmount;
+    public int collectedClues = 0;
 
     // SFX for clues to use when collected
     [SerializeField] private AudioClip onCollectSFX;
@@ -63,6 +65,7 @@ public class InteractableManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        monster = monsterType;
         locationNum = interactableLocations.Count;
         uiScript = canvasObj.GetComponent<GameUI>();
 
@@ -179,6 +182,10 @@ public class InteractableManager : MonoBehaviour
             newClue.Initialize(clueTypes[i], onCollectSFX, () => { 
                 uiScript.numOfNewClues++;
                 activeObjects.Remove(newClue);
+
+                collectedClues++;
+                if (collectedClues == clueAmount)
+                    GameManager.UpdateInfo("I think that's everything I can find here. I should determine the culprit and get out.");
             });
         }
     }
