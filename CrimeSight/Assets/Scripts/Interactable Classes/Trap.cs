@@ -186,9 +186,9 @@ public class Trap : Interactable
 
             // Visualize deactivation of trap
             TweenManager.CreateTween(GetComponent<ParticleSystem>(), Color.green, 0.3f, () => {
-                Color semigreen = Color.green;
-                semigreen.a = 0.05f;
-                TweenManager.CreateTween(GetComponent<ParticleSystem>(), semigreen, 0.3f);
+                Color darkGray = Color.gray;
+                darkGray.a = 0.05f;
+                TweenManager.CreateTween(GetComponent<ParticleSystem>(), darkGray, 1f);
            });
            // break;
          }

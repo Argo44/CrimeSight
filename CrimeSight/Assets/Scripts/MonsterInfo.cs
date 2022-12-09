@@ -19,7 +19,7 @@ public class MonsterInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerExit(PointerEventData eventData)
     {
         TextMeshProUGUI monsterName = GetComponent<TextMeshProUGUI>();
-        monsterName.color = Color.white;
+        monsterName.color = Color.black;
 
         monsterInfoText.SetActive(false);
     }

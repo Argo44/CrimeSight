@@ -5,9 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-// Base class for all game objects that can be interacted with
-// Don't really need objects of this type, use subclasses instead
-
 public class Keys : Interactable
 {
     public bool collected = false;

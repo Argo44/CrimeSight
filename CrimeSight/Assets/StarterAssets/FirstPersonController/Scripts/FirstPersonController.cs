@@ -163,11 +163,6 @@ namespace StarterAssets
 				//Update onscreen cooldown timer
 				timerText.text = sightCooldownTimer.ToString("F2");
 
-				if (timerText.text == "0.00")
-                {
-					timerText.text = " ";
-                }
-
 				//Slowly change icon color from red to white
 				cooldownColor.a -= Time.deltaTime / 10;
 				sightCooldownIcon.GetComponent<Image>().color = cooldownColor;
@@ -175,6 +170,8 @@ namespace StarterAssets
 				//Play animation when Sight is ready
 				if (sightCooldownTimer <= 0)
 				{
+					timerText.text = " ";
+
 					if (sightIcon != null)
 					{
 						Animator animator = sightIcon.GetComponent<Animator>();
@@ -199,6 +196,16 @@ namespace StarterAssets
 					//Change icon back to red
 					cooldownColor.a = 1f;
 					sightCooldownIcon.GetComponent<Image>().color = cooldownColor;
+
+					if (sightIcon != null)
+					{
+						Animator animator = sightIcon.GetComponent<Animator>();
+						if (animator != null)
+						{
+							bool isOpen = animator.GetBool("show");
+							animator.SetBool("show", false);
+						}
+					}
 				}
 				else // Add player feedback for invalid input?
 					Debug.Log("Sight on cooldown for " + sightCooldownTimer + " seconds");

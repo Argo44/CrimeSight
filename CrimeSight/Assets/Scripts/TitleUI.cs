@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TitleUI : MonoBehaviour
 {
     public GameObject howToPlayPanel;
+    public GameObject creditsPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class TitleUI : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("TestRoom");
+        SceneManager.LoadScene("HouseLayout");
     }
 
     public void HowToPlay()
@@ -34,6 +35,19 @@ public class TitleUI : MonoBehaviour
         else
         {
             howToPlayPanel.SetActive(true);
+        }
+    }
+
+    public void Credits()
+    {
+        if (creditsPanel.activeInHierarchy)
+        {
+            creditsPanel.SetActive(false);
+        }
+
+        else
+        {
+            creditsPanel.SetActive(true);
         }
     }
 

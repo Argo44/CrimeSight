@@ -10,7 +10,8 @@ public enum SFX
     SightActivation,
     NotebookOpen,
     NotebookTabSwitch,
-    NotebookClose
+    NotebookClose,
+    KeyCollect
 }
 
 public class SFXSource : MonoBehaviour
@@ -24,6 +25,7 @@ public class SFXSource : MonoBehaviour
     [SerializeField] private AudioClip notebookOpenSFX;
     [SerializeField] private AudioClip notebookTabSwitchSFX;
     [SerializeField] private AudioClip notebookCloseSFX;
+    [SerializeField] private AudioClip keyCollectSFX;
 
     public Dictionary<SFX, AudioClip> Library => library;
 
@@ -37,5 +39,6 @@ public class SFXSource : MonoBehaviour
         library[SFX.NotebookOpen] = notebookOpenSFX;
         library[SFX.NotebookTabSwitch] = notebookTabSwitchSFX;
         library[SFX.NotebookClose] = notebookCloseSFX;
+        library[SFX.KeyCollect] = keyCollectSFX;
     }
 }

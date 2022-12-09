@@ -7,7 +7,9 @@ public class ThinkPoint : MonoBehaviour
     // Fields
     private Collider collider;
     private bool activated = false;
-    [SerializeField] private string info;
+    [SerializeField] 
+    [TextArea]
+    private string info;
 
     // Start is called before the first frame update
     void Start()

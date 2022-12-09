@@ -18,14 +18,16 @@ public class GameUI : MonoBehaviour
     public GameObject cluesSection;
     public GameObject monstersSection;
     public GameObject howToPlaySection;
+    public GameObject trapsSection;
     public GameObject healthUI;
     public GameObject notebookIcon;
     public GameObject interactText;
     public GameObject quicktimePanel;
     public GameObject infoText;
 
-    public GameObject keys;
-    public GameObject keyNumber;
+    public List<GameObject> keySprites = new List<GameObject>();
+
+    public KeyManager keyManagerScript;
     public int keyTotal; 
 
     public int numOfNewClues = 0;
@@ -57,13 +59,27 @@ public class GameUI : MonoBehaviour
             newClue.text = numOfNewClues.ToString();
         }
 
+        keyTotal = keyManagerScript.KeysCollected();
+
         //Updates number of keys
         if (keyTotal > 0)
         {
-            //Activate number of keys in UI
+            for (int i = 0; i < keyTotal; i++)
+            {
+                keySprites[i].SetActive(true);
+            }
+
+            for (int i = keyTotal; i < keySprites.Count; i++)
+            {
+                keySprites[i].SetActive(false);
+            }
         }
         else if(keyTotal == 0) {
             //Set icon to red
+            foreach(GameObject key in keySprites)
+            {
+                key.SetActive(false);
+            }
         }
 
         isPaused = pauseScreen.activeInHierarchy;
@@ -196,6 +212,7 @@ public class GameUI : MonoBehaviour
         cluesSection.SetActive(true);
         monstersSection.SetActive(false);
         howToPlaySection.SetActive(false);
+        trapsSection.SetActive(false);
 
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "Clues";
@@ -208,6 +225,7 @@ public class GameUI : MonoBehaviour
         cluesSection.SetActive(false);
         monstersSection.SetActive(true);
         howToPlaySection.SetActive(false);
+        trapsSection.SetActive(false);
 
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "Monsters";
@@ -220,9 +238,20 @@ public class GameUI : MonoBehaviour
         cluesSection.SetActive(false);
         monstersSection.SetActive(false);
         howToPlaySection.SetActive(true);
+        trapsSection.SetActive(false);
 
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "How To Play";
+        SFXPlayer.Play(SFX.NotebookTabSwitch);
+    }
+
+    public void HowToPlayNextPage()
+    {
+        howToPlaySection.SetActive(false);
+        trapsSection.SetActive(true);
+
+        TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
+        headerText.text = "Traps";
         SFXPlayer.Play(SFX.NotebookTabSwitch);
     }
 

@@ -41,6 +41,7 @@ public class KeyManager : MonoBehaviour
     public void AddKey()
     {
         keysCollected++;
+        SFXPlayer.Play(SFX.KeyCollect);
     }
 
     // Start is called before the first frame update
