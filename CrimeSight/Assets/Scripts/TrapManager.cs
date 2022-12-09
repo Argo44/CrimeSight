@@ -24,10 +24,6 @@ public class TrapManager : MonoBehaviour
     void Start()
     {
         trapLocations = new List<Vector3>();
-        
-       
-        // Then start the Quick Time Event
-
 
         // Store trap locations
         foreach (Transform t in GetComponentsInChildren<Transform>())
@@ -75,7 +71,7 @@ public class TrapManager : MonoBehaviour
 
     public void ToggleQuickTimeCanvas()
     {
-        canvas.SetActive(!canvas.active);
+        canvas.SetActive(!canvas.activeSelf);
     }
     
 

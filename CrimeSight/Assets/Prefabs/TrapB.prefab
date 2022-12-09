@@ -29390,8 +29390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ddec1af49ff3142b799c028830c190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactSFX: {fileID: 0}
-  disarmSFX: {fileID: 0}
+  interactSFX: {fileID: 8300000, guid: 6b1f7fc4a9bc1124190df15ef25429fe, type: 3}
+  disarmSFX: {fileID: 8300000, guid: 5260699751b6744489d8e34dca133a31, type: 3}
 --- !u!65 &3525418856312994800
 BoxCollider:
   m_ObjectHideFlags: 0

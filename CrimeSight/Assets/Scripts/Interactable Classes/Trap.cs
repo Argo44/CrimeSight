@@ -138,8 +138,6 @@ public class Trap : Interactable
     // Resets the timer and sets the keys
     void Disarm()
     {
-        int rand;
-
         currentKey = 0;
         keyOrder.Clear();
 
@@ -190,6 +188,9 @@ public class Trap : Interactable
                 darkGray.a = 0.05f;
                 TweenManager.CreateTween(GetComponent<ParticleSystem>(), darkGray, 1f);
            });
+
+            if (disarmSFX != null)
+                audioSrc.PlayOneShot(disarmSFX);
            // break;
          }
 
@@ -211,6 +212,7 @@ public class Trap : Interactable
             keyOrder.Dequeue();
             trapManager.GTtexts[currentKey].gameObject.SetActive(false);
             trapManager.GTImages[currentKey].gameObject.GetComponent<Image>().color = new Color32(65,226,48,255);
+            SFXPlayer.Play(SFX.QteKeyHit);
             currentKey += 1;
 
             // Show the text of the next Key in the Key Order Queue
