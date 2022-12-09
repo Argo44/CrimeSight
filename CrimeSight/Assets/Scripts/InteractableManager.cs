@@ -11,6 +11,7 @@ public enum InteractableType
 
 public enum MonsterType
 {
+    Werewolf,
     Monster1,
     Monster2,
     Vampire,
@@ -39,7 +40,14 @@ public class InteractableManager : MonoBehaviour
     public GameObject blueClue;
     public GameObject purpleClue;
 
+    public GameObject clawMarksPrefab;
+    public GameObject footPrintsPrefab;
+    public GameObject furPrefab;
+    public GameObject pocketWatchPrefab;
+    public GameObject calendarPrefab;
+
     //List of prefabs 
+    [SerializeField]
     private List<GameObject> cluePrefab = new List<GameObject>();
     private List<ClueType> clueTypes = new List<ClueType>();
 
@@ -73,6 +81,25 @@ public class InteractableManager : MonoBehaviour
         //Find Monster Type
         switch(monsterType)
         {
+            case MonsterType.Werewolf:
+                cluePrefab.Add(clawMarksPrefab);
+                clueTypes.Add(ClueType.ClawMarks);
+
+                cluePrefab.Add(footPrintsPrefab);
+                clueTypes.Add(ClueType.FootPrints);
+
+                cluePrefab.Add(furPrefab);
+                clueTypes.Add(ClueType.Fur);
+
+                cluePrefab.Add(pocketWatchPrefab);
+                clueTypes.Add(ClueType.PocketWatch);
+
+                cluePrefab.Add(calendarPrefab);
+                clueTypes.Add(ClueType.Calendar);
+
+                clueAmount = 5;
+                break;
+
             case MonsterType.Monster1:
                 cluePrefab.Add(greenClue);
                 clueTypes.Add(ClueType.Green);

@@ -20,6 +20,8 @@ public enum ClueType
     Blood,
     FootPrints,
     Fur,
+    PocketWatch,
+    Calendar,
 
     //SpecialClue
     Red,
@@ -109,10 +111,23 @@ public class Clue : Interactable
                     clueNumber = 9;
                     break;
 
+                case ClueType.PocketWatch:
+                    clueName = "Pocket Watch";
+                    info = "This is silver pocket watch";
+                    clueNumber = 10;
+                    break;
+
+
+                case ClueType.Calendar:
+                    clueName = "Calendar";
+                    info = "This is a calendar with the moon cycles on it";
+                    clueNumber = 11;
+                    break;
+                   
                 case ClueType.Red:
                     clueName = "Red";
                     info = "This is a red clue";
-                    clueNumber = 10;
+                    clueNumber = 12;
                     break;
 
                 default:
