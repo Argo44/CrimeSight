@@ -22,6 +22,7 @@ public class GameUI : MonoBehaviour
     public GameObject notebookIcon;
     public GameObject interactText;
     public GameObject quicktimePanel;
+    public GameObject infoText;
 
     public GameObject keys;
     public GameObject keyNumber;
@@ -31,11 +32,12 @@ public class GameUI : MonoBehaviour
     private bool notebookIsClosed = true;
     public bool inTrapQTE = false;
     public bool isPaused = false;
+    private float infoTimer = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager.OnInfoUpdate += UpdateInfoText;
     }
 
     // Update is called once per frame
@@ -65,6 +67,15 @@ public class GameUI : MonoBehaviour
         }
 
         isPaused = pauseScreen.activeInHierarchy;
+
+        // Update info text duration
+        if (!isPaused)
+        {
+            if (infoTimer >= 0)
+                infoTimer -= Time.deltaTime;
+            else
+                infoText.SetActive(false);
+        }
     }
 
     public void PauseGame()
@@ -80,6 +91,7 @@ public class GameUI : MonoBehaviour
             sightIcon.SetActive(true);
             healthUI.SetActive(true);
             notebookIcon.SetActive(true);
+            infoText.SetActive(true);
             quicktimePanel.SetActive(inTrapQTE);
 
             //Sets timeScale back to 1 so game can resume
@@ -107,6 +119,7 @@ public class GameUI : MonoBehaviour
             healthUI.SetActive(false);
             notebookIcon.SetActive(false);
             interactText.SetActive(false);
+            infoText.SetActive(false);
             quicktimePanel.SetActive(false);
 
             //Sets time scale to 0 so game pauses
@@ -211,5 +224,13 @@ public class GameUI : MonoBehaviour
         TextMeshProUGUI headerText = notebookHeader.GetComponent<TextMeshProUGUI>();
         headerText.text = "How To Play";
         SFXPlayer.Play(SFX.NotebookTabSwitch);
+    }
+
+    private void UpdateInfoText(string info)
+    {
+        infoText.SetActive(true);
+        TextMeshProUGUI text = infoText.GetComponent<TextMeshProUGUI>();
+        text.text = info;
+        infoTimer = 5;
     }
 }

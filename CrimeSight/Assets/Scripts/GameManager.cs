@@ -15,6 +15,9 @@ public enum GameState
 // Delegate for handling HiddenObject activation on Sight usage
 public delegate void SightEventHandler();
 
+// Delegate for updating info text in UI
+public delegate void UiInfoUpdateHandler(string info);
+
 public class GameManager : MonoBehaviour
 {
 
@@ -29,15 +32,18 @@ public class GameManager : MonoBehaviour
     private Image crosshair;
     private TextMeshProUGUI interactText;
 
-    // Sight FX Data
+    // Events
     static public event SightEventHandler OnSight;
+    static public event UiInfoUpdateHandler OnInfoUpdate;
+
+    // Sight FX Data
     private PostProcessVolume sightFX;
-    private static readonly float SIGHT_TIME = 2f;
+    static private readonly float SIGHT_TIME = 2f;
     static private float sightTimer = 0;
 
     // Damage FX Data
     private PostProcessVolume damageFX;
-    private static readonly float DMG_TIME = 0.5f;
+    static private readonly float DMG_TIME = 0.5f;
     static private float damageTimer = 0;
 
     //Key Manager
@@ -225,6 +231,11 @@ public class GameManager : MonoBehaviour
     {
         damageTimer = DMG_TIME;
         // SFXPlayer.Play(SFX.PlayerDamage);
+    }
+
+    public static void UpdateInfo(string info)
+    {
+        OnInfoUpdate?.Invoke(info);
     }
 
     // Determines if an object is visible to main camera (in view and unobstructed)
