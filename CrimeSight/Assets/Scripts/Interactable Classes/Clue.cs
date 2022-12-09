@@ -44,6 +44,11 @@ public class Clue : Interactable
     private AudioSource audioSrc;
     private AudioClip collectSFX;
 
+    public string ClueName()
+    {
+        return clueName;
+    }
+
     // Loads clue info for this object
     public void Initialize(ClueType _type, AudioClip onCollectSFX, UnityAction clueCollectUpdateCallback)
     {
