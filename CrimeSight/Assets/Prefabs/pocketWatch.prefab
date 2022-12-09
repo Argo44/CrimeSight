@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5448374821370790730}
   - component: {fileID: 8949602015666900207}
   - component: {fileID: 6617943806650284069}
+  - component: {fileID: 7358050285927887431}
   m_Layer: 0
   m_Name: pocketWatch
   m_TagString: Untagged
@@ -84,3 +85,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7358050285927887431
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4672296202246380016}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2337258766535902087, guid: aa1af107946e62b4d8ed4c7d910c879c, type: 3}

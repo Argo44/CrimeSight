@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1618780151428516160}
   - component: {fileID: 2438932766349756133}
   - component: {fileID: 449272701350474287}
+  - component: {fileID: 8948894373725131204}
   m_Layer: 0
   m_Name: calendar
   m_TagString: Untagged
@@ -87,3 +88,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8948894373725131204
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106804277806224378}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4439431392218787846, guid: 0ad9ad927d4863a44a4079e28c615ab7, type: 3}

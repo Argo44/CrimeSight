@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2792623063169593273}
   - component: {fileID: 1256144154468442140}
   - component: {fileID: 3930040752202486998}
+  - component: {fileID: 2225636006533706708}
   m_Layer: 0
   m_Name: furChunk
   m_TagString: Untagged
@@ -84,3 +85,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2225636006533706708
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281632425502389507}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6416489263174859642, guid: 67a03e2e1d3047748a8060a023e6e4ef, type: 3}
